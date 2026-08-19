@@ -44,6 +44,13 @@ def search_student(database, student_id=None, name=None):
                 return
 
 def change_grade(database, student_id, new_grade):                
+    if not database:
+        return
+    if not isinstance(student_id, int) or student_id < 1:
+        return
+    if not isinstance(new_grade, int) or not 1 <= new_grade <= 5:
+        return
+
     for student in database:
         if int(student['id']) == student_id:
             student['grade'] = new_grade
