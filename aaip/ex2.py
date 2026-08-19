@@ -1,20 +1,24 @@
 import csv
 
 def get_students_from_csv(path):
-    with open(path, "r", encoding="utf-8", newline='') as f:
-        database = list(csv.DictReader(f))
-        return database
+    try:
+        with open(path, "r", encoding="utf-8", newline='') as f:
+            database = list(csv.DictReader(f))
+            return database
+    except OSError:
+        print("Error: Could not open the file!")
 
 def add_student(database):
     while True:
         print("Enter the students name: ")
         name = input()
-
-        if name == "":
+        if not name.strip(): # to detect even just spaces in the name
             return
 
         print("Enter the students grade: ")
-        grade = input()
+        grade = int(input())
+        if not 1 <= grade <= 5:
+            return
 
         if not database:
             new_id = 1
@@ -23,12 +27,15 @@ def add_student(database):
             new_id = max(id_list) + 1
 
         database.append({
-            'id': str(new_id), 
+            'id': new_id, 
             'name': name,
             'grade': grade
         })
 
 def search_student(database, student_id=None, name=None):
+    if not database:
+        return
+
     if student_id is not None:
         print("Search for ID:")
         for row in database:
@@ -57,10 +64,16 @@ def change_grade(database, student_id, new_grade):
             break
 
 def store_students_into_csv(database,path):
-    with open(path, "w", encoding="utf-8", newline='') as f:
-        fieldnames = ["id", "name", "grade"]
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
+    if not database:
+        return
 
-        for student in database:
-            writer.writerow(student)
+    try:
+        with open(path, "w", encoding="utf-8", newline='') as f:
+            fieldnames = ["id", "name", "grade"]
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for student in database:
+                writer.writerow(student)
+    except OSError:
+        print("Error: Could not open the file!")
