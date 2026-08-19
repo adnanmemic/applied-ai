@@ -8,3 +8,6 @@ print(studentslist)
 
 ex2.search_student(studentslist, student_id=2)
 ex2.search_student(studentslist, name="someone")
+
+ex2.change_grade(studentslist, 2, 3)
+print(studentslist)
