@@ -27,3 +27,18 @@ def add_student(database):
             'name': name,
             'grade': grade
         })
+
+def search_student(database, student_id=None, name=None):
+    if student_id is not None:
+        print("Search for ID:")
+        for row in database:
+            if int(row['id']) == int(student_id):
+                print(f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n")
+                return
+
+    elif name is not None:
+        print("Search for name:")
+        for row in database:
+            if row['name'] == name:
+                print(f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n")
+                return
