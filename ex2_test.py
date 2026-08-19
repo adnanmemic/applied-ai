@@ -11,3 +11,5 @@ ex2.search_student(studentslist, name="someone")
 
 ex2.change_grade(studentslist, 2, 3)
 print(studentslist)
+
+ex2.store_students_into_csv(studentslist, 'aaip/data/students_list.csv')

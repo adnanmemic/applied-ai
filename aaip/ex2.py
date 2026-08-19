@@ -48,3 +48,12 @@ def change_grade(database, student_id, new_grade):
         if int(student['id']) == student_id:
             student['grade'] = new_grade
             break
+
+def store_students_into_csv(database,path):
+    with open(path, "w", encoding="utf-8") as f:
+        fieldnames = ["id", "name", "grade"]
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for student in database:
+            writer.writerow(student)
