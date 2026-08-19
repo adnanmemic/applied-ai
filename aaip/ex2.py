@@ -42,3 +42,9 @@ def search_student(database, student_id=None, name=None):
             if row['name'] == name:
                 print(f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n")
                 return
+
+def change_grade(database, student_id, new_grade):                
+    for student in database:
+        if int(student['id']) == student_id:
+            student['grade'] = new_grade
+            break
