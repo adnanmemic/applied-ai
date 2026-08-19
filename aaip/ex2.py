@@ -1,7 +1,7 @@
 import csv
 
 def get_students_from_csv(path):
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8", newline='') as f:
         database = list(csv.DictReader(f))
         return database
 
@@ -50,7 +50,7 @@ def change_grade(database, student_id, new_grade):
             break
 
 def store_students_into_csv(database,path):
-    with open(path, "w", encoding="utf-8") as f:
+    with open(path, "w", encoding="utf-8", newline='') as f:
         fieldnames = ["id", "name", "grade"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
