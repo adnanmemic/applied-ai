@@ -13,12 +13,19 @@ def add_student(database):
         print("Enter the students name: ")
         name = input()
         if not name.strip(): # to detect even just spaces in the name
+            print("Error: Name can not be empty!")
             return
 
-        print("Enter the students grade: ")
-        grade = int(input())
+        try:
+            print("Enter the students grade: ")
+            grade = int(input())
+        except ValueError:
+            print("Error: Not a number!")
+            continue
+
         if not 1 <= grade <= 5:
-            return
+            print("Error: Grade is not between 1 and 5!")
+            continue
 
         if not database:
             new_id = 1
@@ -37,13 +44,20 @@ def search_student(database, student_id=None, name=None):
         return
 
     if student_id is not None:
+        if not isinstance(student_id, int) or student_id < 1:
+            return
+
         print("Search for ID:")
         for row in database:
-            if int(row['id']) == int(student_id):
+            if int(row['id']) == student_id:
                 print(f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n")
                 return
 
     elif name is not None:
+        if not isinstance(name, str) or not name.strip(): # to detect even just spaces in the name
+            print("Error: Name can not be empty!")
+            return
+
         print("Search for name:")
         for row in database:
             if row['name'] == name:
