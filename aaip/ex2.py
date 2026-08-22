@@ -1,6 +1,6 @@
 import csv
 
-def get_students_from_csv(path):
+def get_students_from_csv(path: str) -> list[dict[str, str]] | None:
     try:
         with open(path, "r", encoding="utf-8", newline='') as f:
             database = list(csv.DictReader(f))
@@ -8,7 +8,7 @@ def get_students_from_csv(path):
     except OSError:
         print("Error: Could not open the file!")
 
-def add_student(database):
+def add_student(database: list[dict[str, str]]) -> None:
     while True:
         print("Enter the students name: ")
         name = input()
@@ -34,12 +34,17 @@ def add_student(database):
             new_id = max(id_list) + 1
 
         database.append({
-            'id': new_id, 
+            'id': str(new_id), 
             'name': name,
-            'grade': grade
+            'grade': str(grade)
         })
 
-def search_student(database, student_id=None, name=None):
+def search_student(
+    database: list[dict[str, str]], 
+    student_id: int | None = None, 
+    name: str | None = None,
+) -> None:
+
     if not database:
         return
 
@@ -54,7 +59,8 @@ def search_student(database, student_id=None, name=None):
                 return
 
     elif name is not None:
-        if not isinstance(name, str) or not name.strip(): # to detect even just spaces in the name
+        # to detect even just spaces in the name
+        if not isinstance(name, str) or not name.strip(): 
             print("Error: Name can not be empty!")
             return
 
@@ -64,7 +70,7 @@ def search_student(database, student_id=None, name=None):
                 print(f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n")
                 return
 
-def change_grade(database, student_id, new_grade):                
+def change_grade(database: list[dict[str, str]], student_id: int, new_grade: int) -> None:                
     if not database:
         return
     if not isinstance(student_id, int) or student_id < 1:
@@ -74,10 +80,10 @@ def change_grade(database, student_id, new_grade):
 
     for student in database:
         if int(student['id']) == student_id:
-            student['grade'] = new_grade
+            student['grade'] = str(new_grade)
             break
 
-def store_students_into_csv(database,path):
+def store_students_into_csv(database: list[dict[str, str]], path: str) -> None:
     if not database:
         return
 
