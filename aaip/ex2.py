@@ -2,7 +2,7 @@ import csv
 
 def get_students_from_csv(path: str) -> list[dict[str, str]] | None:
     try:
-        with open(path, "r", encoding="utf-8", newline='') as f:
+        with open(path, "r", encoding="utf-8", newline="") as f:
             database = list(csv.DictReader(f))
             return database
     except OSError:
@@ -30,13 +30,13 @@ def add_student(database: list[dict[str, str]]) -> None:
         if not database:
             new_id = 1
         else:
-            id_list = [int(row['id']) for row in database]
+            id_list = [int(row["id"]) for row in database]
             new_id = max(id_list) + 1
 
         database.append({
-            'id': str(new_id), 
-            'name': name,
-            'grade': str(grade)
+            "id": str(new_id), 
+            "name": name,
+            "grade": str(grade)
         })
 
 def search_student(
@@ -54,8 +54,8 @@ def search_student(
 
         print("Search for ID:")
         for row in database:
-            if int(row['id']) == student_id:
-                print(f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n")
+            if int(row["id"]) == student_id:
+                print(f"ID: {row["id"]} \nName: {row["name"]} \nGrade: {row["grade"]} \n")
                 return
 
     elif name is not None:
@@ -66,8 +66,8 @@ def search_student(
 
         print("Search for name:")
         for row in database:
-            if row['name'] == name:
-                print(f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n")
+            if row["name"] == name:
+                print(f"ID: {row["id"]} \nName: {row["name"]} \nGrade: {row["grade"]} \n")
                 return
 
 def change_grade(database: list[dict[str, str]], student_id: int, new_grade: int) -> None:                
@@ -79,8 +79,8 @@ def change_grade(database: list[dict[str, str]], student_id: int, new_grade: int
         return
 
     for student in database:
-        if int(student['id']) == student_id:
-            student['grade'] = str(new_grade)
+        if int(student["id"]) == student_id:
+            student["grade"] = str(new_grade)
             break
 
 def store_students_into_csv(database: list[dict[str, str]], path: str) -> None:
@@ -88,7 +88,7 @@ def store_students_into_csv(database: list[dict[str, str]], path: str) -> None:
         return
 
     try:
-        with open(path, "w", encoding="utf-8", newline='') as f:
+        with open(path, "w", encoding="utf-8", newline="") as f:
             fieldnames = ["id", "name", "grade"]
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
