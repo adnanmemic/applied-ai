@@ -1,4 +1,4 @@
-def list_average(numlist: list[float]) -> float | None:
+def list_average(numlist: list[int | float]) -> float | None:
     if not numlist:
         return None
 
