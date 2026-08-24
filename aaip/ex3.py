@@ -16,3 +16,10 @@ class Person:
     def greet(self):
         return f"Greetings to {self.name}"
         
+class Student(Person):
+    def __init__(self, name, age, address, university):
+        super().__init__(name, age, address)
+        self.university = university
+
+    def greet(self):
+        return f"Greetings to {self.name} and his university: {self.university}"
