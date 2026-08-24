@@ -27,6 +27,9 @@ class Person:
 class Student(Person):
     def __init__(self, name: str, age: int, address: str, university: str) -> None:
         super().__init__(name, age, address)
+        if not isinstance(university, str):
+            raise TypeError("University must be a string!")
+
         self.university = university
 
     def greet(self):
