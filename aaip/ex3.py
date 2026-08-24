@@ -15,6 +15,11 @@ class Person:
 
     def greet(self):
         return f"Greetings to {self.name}"
+
+    @classmethod
+    def from_String(cls, person_string: str):
+        name, age, address = person_string.split(",")
+        return cls(name, int(age), address)
         
 class Student(Person):
     def __init__(self, name, age, address, university):
