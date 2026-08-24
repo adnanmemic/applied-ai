@@ -1,5 +1,5 @@
 class Person:
-    def __init__(self, name: str, age: int, address: str):
+    def __init__(self, name: str, age: int, address: str) -> None:
         if not isinstance(name, str):
             raise TypeError("Name must be a string!")
 
@@ -25,7 +25,7 @@ class Person:
         return cls(name, int(age), address)
         
 class Student(Person):
-    def __init__(self, name, age, address, university):
+    def __init__(self, name: str, age: int, address: str, university: str) -> None:
         super().__init__(name, age, address)
         self.university = university
 
