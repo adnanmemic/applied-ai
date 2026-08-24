@@ -7,3 +7,7 @@ __pycache__
 
 # Files
 *.csv
+
+# Coverage
+.coverage
+htmlcov
