@@ -17,8 +17,11 @@ class Person:
         return f"Greetings to {self.name}"
 
     @classmethod
-    def from_String(cls, person_string: str):
-        name, age, address = person_string.split(",")
+    def from_string(cls, person_string: str):
+        if not isinstance(person_string, str):
+            raise TypeError("Methodparameter must be a string")
+
+        name, age, address = [x.strip() for x in person_string.split(",")]
         return cls(name, int(age), address)
         
 class Student(Person):
