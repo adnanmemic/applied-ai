@@ -23,7 +23,8 @@ class Person:
 
         name, age, address = [x.strip() for x in person_string.split(",")]
         return cls(name, int(age), address)
-        
+
+
 class Student(Person):
     def __init__(self, name: str, age: int, address: str, university: str) -> None:
         super().__init__(name, age, address)
