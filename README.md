@@ -1,4 +1,4 @@
-# Applied-AI
+# Applied-AI [![Test](https://github.com/adnanmemic/applied-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/adnanmemic/applied-ai/actions/workflows/ci.yml)
 
 Exercises and projects for the Applied AI course, covering Python, NumPy, 
 Pandas, Matplotlib, Seaborn, Machine Learning, and Deep Learning.
