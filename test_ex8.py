@@ -1,11 +1,12 @@
 import unittest
+
 from aaip import ex8
 
-class TestListAverage(unittest.TestCase):
 
+class TestListAverage(unittest.TestCase):
     def test_average_positive_numbers(self):
-        l1 = [5, 3, 9, 4, 20] # integers
-        l2 = [3.2, 9.4, 6.1, 50.6, 20.3] # float
+        l1 = [5, 3, 9, 4, 20]  # integers
+        l2 = [3.2, 9.4, 6.1, 50.6, 20.3]  # float
         self.assertAlmostEqual(ex8.list_average(l1), 8.2)
         self.assertAlmostEqual(ex8.list_average(l2), 17.92)
 
