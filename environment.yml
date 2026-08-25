@@ -1,0 +1,14 @@
+name: ml
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - numpy
+  - matplotlib
+  - pandas
+  - seaborn
+  - scikit-learn
+  - jupyter
+  - coverage
