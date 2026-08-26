@@ -75,3 +75,10 @@ class ComplexNumber:
 
         # real != 0 and imaginary != 0: "x + xi" or "x - xi" or "-x + xi" or "-x - xi"
         return f"{self.real} {operator} {abs(self.imaginary)}i"
+
+
+def complex_number_sum(complex_numbers: list[ComplexNumber]) -> ComplexNumber:
+    return ComplexNumber(
+        sum([number.real for number in complex_numbers]),
+        sum([number.imaginary for number in complex_numbers]),
+    )
