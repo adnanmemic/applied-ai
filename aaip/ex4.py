@@ -12,4 +12,9 @@ class ComplexNumber:
         real = self.real - other.real
         imaginary = self.imaginary - other.imaginary
         return ComplexNumber(real, imaginary)
+
+    def __mul__(self, other):
+        real = self.real * other.real - self.imaginary * other.imaginary
+        imaginary = self.real * other.imaginary + self.imaginary * other.real
+        return ComplexNumber(real, imaginary)
     
