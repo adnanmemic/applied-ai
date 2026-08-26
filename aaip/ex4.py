@@ -7,3 +7,9 @@ class ComplexNumber:
         real = self.real + other.real
         imaginary = self.imaginary + other.imaginary
         return ComplexNumber(real, imaginary)
+    
+    def __sub__(self, other):
+        real = self.real - other.real
+        imaginary = self.imaginary - other.imaginary
+        return ComplexNumber(real, imaginary)
+    
