@@ -1,5 +1,7 @@
+from types import NotImplementedType
+
 class ComplexNumber:
-    def __init__(self, real, imaginary):
+    def __init__(self, real: int | float, imaginary: int | float) -> None:
         if not isinstance(real, (int, float)):
             raise TypeError("Real must be a number!")
 
@@ -9,33 +11,33 @@ class ComplexNumber:
         self.real = real
         self.imaginary = imaginary
 
-    def __add__(self, other):
+    def __add__(self, other: ComplexNumber) -> ComplexNumber | NotImplementedType:
         if not isinstance(other, ComplexNumber):
-            return NotImplemented
+            return NotImplemented  # eventually TypeError
 
         real = self.real + other.real
         imaginary = self.imaginary + other.imaginary
         return ComplexNumber(real, imaginary)
     
-    def __sub__(self, other):
+    def __sub__(self, other: ComplexNumber) -> ComplexNumber | NotImplementedType:
         if not isinstance(other, ComplexNumber):
-            return NotImplemented
+            return NotImplemented  # eventually TypeError
 
         real = self.real - other.real
         imaginary = self.imaginary - other.imaginary
         return ComplexNumber(real, imaginary)
 
-    def __mul__(self, other):
+    def __mul__(self, other: ComplexNumber) -> ComplexNumber | NotImplementedType:
         if not isinstance(other, ComplexNumber):
-            return NotImplemented
+            return NotImplemented  # eventually TypeError
             
         real = self.real * other.real - self.imaginary * other.imaginary
         imaginary = self.real * other.imaginary + self.imaginary * other.real
         return ComplexNumber(real, imaginary)
     
-    def __truediv__(self, other):
+    def __truediv__(self, other: ComplexNumber) -> ComplexNumber | NotImplementedType:
         if not isinstance(other, ComplexNumber):
-            return NotImplemented
+            return NotImplemented  # eventually TypeError
 
         if other.real == 0 and other.imaginary == 0:
             raise ZeroDivisionError("Can not divide by zero!")
@@ -46,8 +48,8 @@ class ComplexNumber:
             (other.real**2 + other.imaginary**2)
         return ComplexNumber(real, imaginary)
     
-    def __eq__(self, other):
+    def __eq__(self, other: ComplexNumber) -> bool | NotImplementedType:
         if not isinstance(other, ComplexNumber):
-            return NotImplemented
+            return NotImplemented  # eventually False
 
         return self.real == other.real and self.imaginary == other.imaginary
