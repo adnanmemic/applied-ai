@@ -58,15 +58,20 @@ class ComplexNumber:
             return NotImplemented  # eventually False
 
         return self.real == other.real and self.imaginary == other.imaginary
-    
+
     def __str__(self) -> str:
+        """
+        real = 0 and imaginary = 0: "0"
+        real = 0 and imaginary != 0: "xi" or "-xi" (x is placeholder)
+        """
         if self.real == 0:
             return "0" if self.imaginary == 0 else f"{self.imaginary}i"
-        
+
+        # real != 0 and imaginary = 0: "x" (x is placeholder)
         if self.imaginary == 0:
             return str(self.real)
 
         operator = "+" if self.imaginary > 0 else "-"
 
-
+        # real != 0 and imaginary != 0: "x + xi" or "x - xi" or "-x + xi" or "-x - xi"
         return f"{self.real} {operator} {abs(self.imaginary)}i"
