@@ -24,3 +24,6 @@ class ComplexNumber:
         imaginary = (self.imaginary * other.real - self.real * other.imaginary) / \
             (other.real**2 + other.imaginary**2)
         return ComplexNumber(real, imaginary)
+    
+    def __eq__(self, other):
+        return self.real == other.real and self.imaginary == other.imaginary
