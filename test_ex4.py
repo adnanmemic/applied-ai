@@ -32,3 +32,32 @@ class TestComplexNumber(unittest.TestCase):
     def test_zero_division(self):
         with self.assertRaises(ZeroDivisionError):
             self.a / self.c
+    
+    def test_wrong_input_constructor(self):
+        with self.assertRaises(TypeError):
+            ex4.ComplexNumber("foo", 5)
+
+        with self.assertRaises(TypeError):
+            ex4.ComplexNumber(5, "foo")
+
+        with self.assertRaises(TypeError):
+            ex4.ComplexNumber("foo", "bar")
+    
+    def test_wrong_input_addition(self):
+        with self.assertRaises(TypeError):
+            self.a + "foo" 
+
+    def test_wrong_input_subtraction(self):
+        with self.assertRaises(TypeError):
+            self.a - "foo" 
+
+    def test_wrong_input_multiplication(self):
+        with self.assertRaises(TypeError):
+            self.a * "foo" 
+
+    def test_wrong_input_division(self):
+        with self.assertRaises(TypeError):
+            self.a / "foo" 
+
+    def test_wrong_input_equal(self):
+        self.assertFalse(self.a == "foo")
