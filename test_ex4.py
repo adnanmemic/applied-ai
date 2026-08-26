@@ -72,3 +72,13 @@ class TestComplexNumber(unittest.TestCase):
         self.assertEqual(str(self.d), "-3 - 2i")
         self.assertEqual(str(self.e), "-2i")
         self.assertEqual(str(self.f), "4")
+
+    def test_sum_of_complex_numbers(self):
+        complex_number = [self.a, self.b, self.c, self.d]
+
+        empty_list = []
+
+        self.assertEqual(
+            ex4.complex_number_sum(complex_number), ex4.ComplexNumber(3, 0)
+        )
+        self.assertEqual(ex4.complex_number_sum(empty_list), ex4.ComplexNumber(0, 0))
