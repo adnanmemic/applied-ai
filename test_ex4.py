@@ -61,3 +61,14 @@ class TestComplexNumber(unittest.TestCase):
 
     def test_wrong_input_equal(self):
         self.assertFalse(self.a == "foo")
+    
+    def test_print_complex_number(self):
+        self.e = ex4.ComplexNumber(0, -2)
+        self.f = ex4.ComplexNumber(4, 0)
+
+        self.assertEqual(str(self.a), "4 + 3i")
+        self.assertEqual(str(self.b), "2 - 1i")
+        self.assertEqual(str(self.c), "0")
+        self.assertEqual(str(self.d), "-3 - 2i")
+        self.assertEqual(str(self.e), "-2i")
+        self.assertEqual(str(self.f), "4")
