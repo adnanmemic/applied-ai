@@ -18,3 +18,9 @@ class ComplexNumber:
         imaginary = self.real * other.imaginary + self.imaginary * other.real
         return ComplexNumber(real, imaginary)
     
+    def __truediv__(self, other):
+        real = (self.real * other.real + self.imaginary * other.imaginary) / \
+            (other.real**2 + other.imaginary**2)
+        imaginary = (self.imaginary * other.real - self.real * other.imaginary) / \
+            (other.real**2 + other.imaginary**2)
+        return ComplexNumber(real, imaginary)
