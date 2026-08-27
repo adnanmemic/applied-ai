@@ -17,4 +17,4 @@ dev = [
 ]
 
 [tool.coverage.run]
-source = aaip
+source = ["aaip"]
