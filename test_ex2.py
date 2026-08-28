@@ -38,6 +38,30 @@ class TestStudentDatabase(unittest.TestCase):
 
         self.assertEqual(self.database[-1], {"id": "5", "name": "Bob", "grade": "3"})
 
+    def test_add_student_wrong_grade_type(self):
+        database = []
+        with patch("builtins.input", side_effect=["Bob", "not_a_number", ""]):
+            ex2.add_student(database)
+
+        self.assertEqual(database, [])
+
+    def test_add_student_grade_out_of_range(self):
+        database = []
+        with patch("builtins.input", side_effect=["Bob", "0", ""]):
+            ex2.add_student(database)
+
+        with patch("builtins.input", side_effect=["Bob", "6", ""]):
+            ex2.add_student(database)
+
+        self.assertEqual(database, [])
+
+    def test_add_student_to_empty_database(self):
+        database = []
+        with patch("builtins.input", side_effect=["Bob", "3", ""]):
+            ex2.add_student(database)
+
+        self.assertEqual(database[0]["id"], "1")
+
     def test_search_student(self):
         self.assertEqual(
             ex2.search_student(self.database, student_id=3),
