@@ -108,6 +108,29 @@ class TestStudentDatabase(unittest.TestCase):
 
         self.assertEqual(self.database[0], {"id": "1", "name": "John", "grade": "2"})
 
+    def test_change_grade_with_empty_database(self):
+        with self.assertRaises(ValueError):
+            ex2.change_grade(self.empty_database, 2, 3)
+
+    def test_change_grade_wrong_student_id_type(self):
+        with self.assertRaises(TypeError):
+            ex2.change_grade(self.database, "two", 3)
+
+    def test_change_grade_wrong_grade_type(self):
+        with self.assertRaises(TypeError):
+            ex2.change_grade(self.database, 2, "three")
+
+    def test_change_grade_wrong_student_id_range(self):
+        with self.assertRaises(ValueError):
+            ex2.change_grade(self.database, 0, 3)
+
+    def test_change_grade_wrong_grade_range(self):
+        with self.assertRaises(ValueError):
+            ex2.change_grade(self.database, 2, 0)
+
+        with self.assertRaises(ValueError):
+            ex2.change_grade(self.database, 2, 6)
+
     def test_store_students_into_csv(self):
         file_content = []
 

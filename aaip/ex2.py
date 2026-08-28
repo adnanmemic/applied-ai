@@ -105,9 +105,6 @@ def change_grade(
 
 
 def store_students_into_csv(database: list[dict[str, str]], path: str) -> None:
-    if not database:
-        raise ValueError("Database is empty!")
-
     with open(path, "w", encoding="utf-8", newline="") as f:
         fieldnames = ["id", "name", "grade"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
