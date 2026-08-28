@@ -41,7 +41,8 @@ def search_student(
 ) -> dict[str, str] | None:
 
     if not database:
-        raise ValueError("Database is empty!")
+        print("Database is empty!")
+        return
 
     if student_id is not None:
         if not isinstance(student_id, int):

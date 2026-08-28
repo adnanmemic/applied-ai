@@ -16,6 +16,8 @@ class TestStudentDatabase(unittest.TestCase):
             {"id": "4", "name": "Ivan", "grade": "1"},
         ]
 
+        self.empty_database = []
+
     def test_get_students_from_csv(self):
         content = self.database
 
@@ -39,28 +41,25 @@ class TestStudentDatabase(unittest.TestCase):
         self.assertEqual(self.database[-1], {"id": "5", "name": "Bob", "grade": "3"})
 
     def test_add_student_wrong_grade_type(self):
-        database = []
         with patch("builtins.input", side_effect=["Bob", "not_a_number", ""]):
-            ex2.add_student(database)
+            ex2.add_student(self.empty_database)
 
-        self.assertEqual(database, [])
+        self.assertEqual(self.empty_database, [])
 
     def test_add_student_grade_out_of_range(self):
-        database = []
         with patch("builtins.input", side_effect=["Bob", "0", ""]):
-            ex2.add_student(database)
+            ex2.add_student(self.empty_database)
 
         with patch("builtins.input", side_effect=["Bob", "6", ""]):
-            ex2.add_student(database)
+            ex2.add_student(self.empty_database)
 
-        self.assertEqual(database, [])
+        self.assertEqual(self.empty_database, [])
 
     def test_add_student_to_empty_database(self):
-        database = []
         with patch("builtins.input", side_effect=["Bob", "3", ""]):
-            ex2.add_student(database)
+            ex2.add_student(self.empty_database)
 
-        self.assertEqual(database[0]["id"], "1")
+        self.assertEqual(self.empty_database[0]["id"], "1")
 
     def test_search_student(self):
         self.assertEqual(
@@ -72,6 +71,37 @@ class TestStudentDatabase(unittest.TestCase):
             ex2.search_student(self.database, name="Trevor"),
             {"id": "2", "name": "Trevor", "grade": "4"},
         )
+
+    def test_search_student_empty_database(self):
+        self.assertIsNone(ex2.search_student(self.empty_database, student_id=5))
+        self.assertIsNone(ex2.search_student(self.empty_database, name="Josh"))
+
+    def test_search_student_wrong_student_id_type(self):
+        with self.assertRaises(TypeError):
+            ex2.search_student(self.database, student_id="two")
+
+    def test_search_student_wrong_student_id_number(self):
+        with self.assertRaises(ValueError):
+            ex2.search_student(self.database, student_id=0)
+
+    def test_search_student_wrong_name_type(self):
+        with self.assertRaises(TypeError):
+            ex2.search_student(self.database, name=5)
+
+    def test_search_student_empty_name(self):
+        with self.assertRaises(ValueError):
+            ex2.search_student(self.database, name="")
+
+        with self.assertRaises(ValueError):
+            ex2.search_student(self.database, name="   ")
+
+    def test_search_student_with_no_name_no_id(self):
+        with self.assertRaises(ValueError):
+            ex2.search_student(self.database)
+
+    def test_no_student_was_found(self):
+        self.assertIsNone(ex2.search_student(self.database, student_id=5))
+        self.assertIsNone(ex2.search_student(self.database, name="Josh"))
 
     def test_change_grade(self):
         ex2.change_grade(self.database, 1, 2)
