@@ -27,13 +27,13 @@ class TestDirectoryManagement(unittest.TestCase):
         with self.assertRaises(ValueError):
             ex5.create_project_structure("project_path", "  ")
 
-    def test_project_path_already_exists(self):
+    @patch("builtins.print")
+    def test_project_path_already_exists(self, mock_print):
         with TemporaryDirectory() as tmpdir:
             project_name = "new_project"
-            ex5.create_project_structure(tmpdir, project_name)
 
-            with patch("builtins.print") as mock_print:
-                ex5.create_project_structure(tmpdir, project_name)
+            ex5.create_project_structure(tmpdir, project_name)
+            ex5.create_project_structure(tmpdir, project_name)
 
             mock_print.assert_called_once_with("Project already exists!")
 
