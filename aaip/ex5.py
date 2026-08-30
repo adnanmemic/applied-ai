@@ -53,4 +53,3 @@ def traverse_directory(path: str) -> None:
         file_names = "-" if not files else ", ".join(files)
         print(f"Files: {file_names}")
         print()
-
