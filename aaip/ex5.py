@@ -35,3 +35,22 @@ def create_project_structure(base_path, project_name):
     with open(main_file_path, "w", encoding="utf-8") as file:
         default = 'print("Hello, World!")'
         file.write(default)
+
+
+def traverse_directory(path: str) -> None:
+    if not isinstance(path, str):
+        raise TypeError("Path must be a string!")
+
+    if not path.strip():
+        raise ValueError("Path can not be an empty string!")
+
+    for current_dir, dirs, files in os.walk(path):
+        print(f"Current directory: {current_dir}")
+
+        dir_names = "-" if not dirs else ", ".join(dirs)
+        print(f"Directories: {dir_names}")
+
+        file_names = "-" if not files else ", ".join(files)
+        print(f"Files: {file_names}")
+        print()
+
