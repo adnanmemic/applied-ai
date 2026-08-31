@@ -77,3 +77,34 @@ class TestDirectoryManagement(unittest.TestCase):
 
             with open(main_path, "r", encoding="utf-8") as file:
                 self.assertEqual(file.read(), 'print("Hello, World!")')
+
+    @patch("builtins.print")
+    def test_traverse_directory(self, mock_print):
+        with TemporaryDirectory() as tmpdir:
+            path1 = os.path.join(tmpdir, "src")
+            os.makedirs(path1)
+
+            file1 = os.path.join(path1, "main.py")
+
+            with open(file1, "w"):
+                pass
+
+            ex5.traverse_directory(tmpdir)
+
+            mock_print.assert_any_call(f"Current directory: {tmpdir}")
+            mock_print.assert_any_call("Directories: src")
+            mock_print.assert_any_call("Files: -")
+
+            mock_print.assert_any_call(f"Current directory: {path1}")
+            mock_print.assert_any_call("Directories: -")
+            mock_print.assert_any_call("Files: main.py")
+
+    def test_traverse_directory_wrong_input_type(self):
+        with self.assertRaises(TypeError):
+            ex5.traverse_directory(5)
+
+    def test_traverse_directory_empty_input_string(self):
+        with self.assertRaises(ValueError):
+            ex5.traverse_directory("")
+        with self.assertRaises(ValueError):
+            ex5.traverse_directory("  ")
