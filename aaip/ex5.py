@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import UTC, datetime
 
 
 def create_project_structure(base_path, project_name):
@@ -60,10 +60,14 @@ def file_metadata(file_path):
     metadata = os.stat(file_path)
     print(f"Filesize: {metadata.st_size} Byte")
 
-    mtime = datetime.fromtimestamp(metadata.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+    mtime = datetime.fromtimestamp(metadata.st_mtime, tz=UTC).strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
     print(f"Last modified: {mtime}")
 
-    ctime = datetime.fromtimestamp(metadata.st_ctime).strftime("%Y-%m-%d %H:%M:%S")
+    ctime = datetime.fromtimestamp(metadata.st_ctime, tz=UTC).strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
     print(f"Creation time: {ctime}")
 
     os.chmod(file_path, 0o444)
