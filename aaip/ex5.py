@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 
 def create_project_structure(base_path, project_name):
@@ -53,3 +54,20 @@ def traverse_directory(path: str) -> None:
         file_names = "-" if not files else ", ".join(files)
         print(f"Files: {file_names}")
         print()
+
+
+def file_metadata(file_path):
+    metadata = os.stat(file_path)
+    print(f"Filesize: {metadata.st_size} Byte")
+
+    mtime = datetime.fromtimestamp(metadata.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+    print(f"Last modified: {mtime}")
+
+    ctime = datetime.fromtimestamp(metadata.st_ctime).strftime("%Y-%m-%d %H:%M:%S")
+    print(f"Creation time: {ctime}")
+
+    os.chmod(file_path, 0o444)
+    print(f"File '{file_path}' is now read-only!")
+
+    os.chmod(file_path, 0o644)
+    print(f"File '{file_path}' is now writeable again!")
