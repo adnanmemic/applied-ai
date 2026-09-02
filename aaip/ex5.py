@@ -57,6 +57,12 @@ def traverse_directory(path: str) -> None:
 
 
 def file_metadata(file_path):
+    if not isinstance(file_path, str):
+        raise TypeError("File path must be a string!")
+
+    if not file_path.strip():
+        raise ValueError("File path can not be an empty string!")
+
     metadata = os.stat(file_path)
     print(f"Filesize: {metadata.st_size} Byte")
 
