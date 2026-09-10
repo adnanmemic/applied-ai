@@ -108,3 +108,13 @@ class TestDirectoryManagement(unittest.TestCase):
             ex5.traverse_directory("")
         with self.assertRaises(ValueError):
             ex5.traverse_directory("  ")
+
+    def test_file_metadata_wrong_type(self):
+        with self.assertRaises(TypeError):
+            ex5.file_metadata(5)
+
+    def test_file_metadata_empty_path(self):
+        with self.assertRaises(ValueError):
+            ex5.file_metadata("")
+        with self.assertRaises(ValueError):
+            ex5.file_metadata("   ")
