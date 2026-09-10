@@ -71,6 +71,8 @@ def file_metadata(file_path):
     )
     print(f"Last modified: {mtime}")
 
+    # on windows it is creation time
+    # on linux it is the time of the last change
     ctime = datetime.fromtimestamp(metadata.st_ctime, tz=UTC).strftime(
         "%Y-%m-%d %H:%M:%S"
     )

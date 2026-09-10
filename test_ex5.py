@@ -1,5 +1,7 @@
+import stat
 import os
 import unittest
+from datetime import UTC, datetime
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
@@ -118,3 +120,31 @@ class TestDirectoryManagement(unittest.TestCase):
             ex5.file_metadata("")
         with self.assertRaises(ValueError):
             ex5.file_metadata("   ")
+
+    @patch("builtins.print")
+    def test_file_metadata(self, mock_print):
+        with TemporaryDirectory() as tmpdir:
+            file_path = os.path.join(tmpdir, "file.txt")
+            with open(file_path, "w", encoding="utf-8"):
+                pass
+
+            metadata = os.stat(file_path)
+            mtime = datetime.fromtimestamp(metadata.st_mtime, tz=UTC).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
+            ctime = datetime.fromtimestamp(metadata.st_ctime, tz=UTC).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
+
+            # capture metadata before calling the function because chmod() can 
+            # change ctime (on linux)
+            ex5.file_metadata(file_path)
+
+            mock_print.assert_any_call(f"Filesize: {metadata.st_size} Byte")
+            mock_print.assert_any_call(f"Last modified: {mtime}")
+            mock_print.assert_any_call(f"Creation time: {ctime}")
+
+            file_mode = stat.S_IMODE(os.stat(file_path).st_mode)
+
+            # test only final file permissions
+            self.assertEqual(file_mode, 0o644)
