@@ -186,3 +186,31 @@ class TestDirectoryManagement(unittest.TestCase):
             ex5.find_files_by_extension(".", "")
         with self.assertRaises(ValueError):
             ex5.find_files_by_extension(".", "   ")
+    
+    def test_delete_files_and_directories(self):
+        with TemporaryDirectory() as tmpdir:
+            dir1 = os.path.join(tmpdir, "dir1")
+            dir2 = os.path.join(dir1, "dir2")
+            os.mkdir(dir1)
+            os.mkdir(dir2)
+
+            file1 = os.path.join(dir1, "file1.txt")
+            file2 = os.path.join(dir2, "file2.txt")
+
+            with open(file1, "w"):
+                pass
+            with open(file2, "w"):
+                pass
+        
+            ex5.delete_files_and_directories(tmpdir)
+            self.assertFalse(os.path.exists(tmpdir))
+
+    def test_delete_files_and_directories_wrong_path_type(self):
+        with self.assertRaises(TypeError):
+            ex5.delete_files_and_directories(5)
+
+    def test_delete_files_and_directories_empty_path(self):
+        with self.assertRaises(ValueError):
+            ex5.delete_files_and_directories("")
+        with self.assertRaises(ValueError):
+            ex5.delete_files_and_directories("   ")
