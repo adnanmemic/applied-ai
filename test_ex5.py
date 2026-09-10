@@ -166,3 +166,23 @@ class TestDirectoryManagement(unittest.TestCase):
 
             expected_list = [file1, file2]
             self.assertEqual(ex5.find_files_by_extension(tmpdir,".txt"), expected_list)
+
+    def test_find_files_by_extension_wrong_path_type(self):
+        with self.assertRaises(TypeError):
+            ex5.find_files_by_extension(5, ".txt")
+
+    def test_find_files_by_extension_wrong_extension_type(self):
+        with self.assertRaises(TypeError):
+            ex5.find_files_by_extension(".", 5)
+    
+    def test_find_files_by_extension_empty_path(self):
+        with self.assertRaises(ValueError):
+            ex5.find_files_by_extension("", ".txt")
+        with self.assertRaises(ValueError):
+            ex5.find_files_by_extension("   ", ".txt")
+
+    def test_find_files_by_extension_empty_extension(self):
+        with self.assertRaises(ValueError):
+            ex5.find_files_by_extension(".", "")
+        with self.assertRaises(ValueError):
+            ex5.find_files_by_extension(".", "   ")
