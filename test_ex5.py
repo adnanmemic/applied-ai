@@ -148,3 +148,21 @@ class TestDirectoryManagement(unittest.TestCase):
 
             # test only final file permissions
             self.assertEqual(file_mode, 0o644)
+
+    def test_find_files_by_extension(self):
+        with TemporaryDirectory() as tmpdir:
+            dir1 = os.path.join(tmpdir, "dir1")
+            dir2 = os.path.join(dir1, "dir2")
+            os.mkdir(dir1)
+            os.mkdir(dir2)
+
+            file1 = os.path.join(dir1, "file1.txt")
+            file2 = os.path.join(dir2, "file2.txt")
+
+            with open(file1, "w"):
+                pass
+            with open(file2, "w"):
+                pass
+
+            expected_list = [file1, file2]
+            self.assertEqual(ex5.find_files_by_extension(tmpdir,".txt"), expected_list)
