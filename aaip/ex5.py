@@ -83,3 +83,12 @@ def file_metadata(file_path):
 
     os.chmod(file_path, 0o644)
     print(f"File '{file_path}' is now writeable again!")
+
+def find_files_by_extension(path, extension):
+    file_list = []
+    for dirpath, _, files in os.walk(path):
+        for file in files:
+            if extension in file:
+                file_list.append(os.path.join(dirpath, file))
+
+    return file_list
