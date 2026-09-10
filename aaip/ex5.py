@@ -2,7 +2,7 @@ import os
 from datetime import UTC, datetime
 
 
-def create_project_structure(base_path, project_name):
+def create_project_structure(base_path: str, project_name: str) -> None:
     if not isinstance(base_path, str):
         raise TypeError("Base path must be a string!")
 
@@ -56,7 +56,7 @@ def traverse_directory(path: str) -> None:
         print()
 
 
-def file_metadata(file_path):
+def file_metadata(file_path: str) -> None:
     if not isinstance(file_path, str):
         raise TypeError("File path must be a string!")
 
@@ -85,7 +85,7 @@ def file_metadata(file_path):
     print(f"File '{file_path}' is now writeable again!")
 
 
-def find_files_by_extension(path, extension):
+def find_files_by_extension(path: str, extension: str) -> list[str]:
     if not isinstance(path, str):
         raise TypeError("Path must be a string")
 
@@ -107,7 +107,7 @@ def find_files_by_extension(path, extension):
     return file_list
 
 
-def delete_files_and_directories(path):
+def delete_files_and_directories(path: str) -> None:
     if not isinstance(path, str):
         raise TypeError("Path must be a string")
 
