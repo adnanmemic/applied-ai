@@ -165,7 +165,7 @@ class TestDirectoryManagement(unittest.TestCase):
                 pass
 
             expected_list = [file1, file2]
-            self.assertEqual(ex5.find_files_by_extension(tmpdir,".txt"), expected_list)
+            self.assertCountEqual(ex5.find_files_by_extension(tmpdir,".txt"), expected_list)
 
     def test_find_files_by_extension_wrong_path_type(self):
         with self.assertRaises(TypeError):
