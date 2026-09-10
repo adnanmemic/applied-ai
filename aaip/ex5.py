@@ -104,3 +104,17 @@ def find_files_by_extension(path, extension):
                 file_list.append(os.path.join(dirpath, file))
 
     return file_list
+
+def delete_files_and_directories(path):
+    if not isinstance(path, str):
+        raise TypeError("Path must be a string")
+
+    if not path.strip():
+        raise ValueError("Path can not be empty!")
+    
+    for dirpath, _, files in os.walk(path, topdown=False):
+        for file in files:
+            file_path = os.path.join(dirpath, file)
+            os.remove(file_path)
+
+        os.rmdir(dirpath)
