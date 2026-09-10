@@ -85,6 +85,18 @@ def file_metadata(file_path):
     print(f"File '{file_path}' is now writeable again!")
 
 def find_files_by_extension(path, extension):
+    if not isinstance(path, str):
+        raise TypeError("Path must be a string")
+
+    if not isinstance(extension, str):
+        raise TypeError("Extension must be a string")
+    
+    if not path.strip():
+        raise ValueError("Path can not be empty!")
+
+    if not extension.strip():
+        raise ValueError("Extension can not be empty!")
+
     file_list = []
     for dirpath, _, files in os.walk(path):
         for file in files:
