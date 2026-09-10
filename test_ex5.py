@@ -1,5 +1,5 @@
-import stat
 import os
+import stat
 import unittest
 from datetime import UTC, datetime
 from tempfile import TemporaryDirectory
@@ -136,7 +136,7 @@ class TestDirectoryManagement(unittest.TestCase):
                 "%Y-%m-%d %H:%M:%S"
             )
 
-            # capture metadata before calling the function because chmod() can 
+            # capture metadata before calling the function because chmod() can
             # change ctime (on linux)
             ex5.file_metadata(file_path)
 
@@ -165,7 +165,9 @@ class TestDirectoryManagement(unittest.TestCase):
                 pass
 
             expected_list = [file1, file2]
-            self.assertCountEqual(ex5.find_files_by_extension(tmpdir,".txt"), expected_list)
+            self.assertCountEqual(
+                ex5.find_files_by_extension(tmpdir, ".txt"), expected_list
+            )
 
     def test_find_files_by_extension_wrong_path_type(self):
         with self.assertRaises(TypeError):
@@ -174,7 +176,7 @@ class TestDirectoryManagement(unittest.TestCase):
     def test_find_files_by_extension_wrong_extension_type(self):
         with self.assertRaises(TypeError):
             ex5.find_files_by_extension(".", 5)
-    
+
     def test_find_files_by_extension_empty_path(self):
         with self.assertRaises(ValueError):
             ex5.find_files_by_extension("", ".txt")
@@ -186,7 +188,7 @@ class TestDirectoryManagement(unittest.TestCase):
             ex5.find_files_by_extension(".", "")
         with self.assertRaises(ValueError):
             ex5.find_files_by_extension(".", "   ")
-    
+
     def test_delete_files_and_directories(self):
         with TemporaryDirectory() as tmpdir:
             dir1 = os.path.join(tmpdir, "dir1")
@@ -201,7 +203,7 @@ class TestDirectoryManagement(unittest.TestCase):
                 pass
             with open(file2, "w"):
                 pass
-        
+
             ex5.delete_files_and_directories(tmpdir)
             self.assertFalse(os.path.exists(tmpdir))
 
