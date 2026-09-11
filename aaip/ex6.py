@@ -71,7 +71,7 @@ def main() -> None:
         print(f"Error: file not found: {file_path}", file=sys.stderr)
         sys.exit(1)
     except ValueError:
-        print(f"Error: word cannot be empty or whispace: {file_path}", file=sys.stderr)
+        print("Error: word cannot be empty or whispace", file=sys.stderr)
         sys.exit(2)
 
 
