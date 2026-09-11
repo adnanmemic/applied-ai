@@ -40,7 +40,8 @@ def main() -> None:
         word_count = count_words(file_path)
         print("Words: ", word_count)
     elif action == "count_lines":
-        count_lines(file_path)
+        line_count = count_lines(file_path)
+        print("Lines: ", line_count)
     elif action == "search_word":
         if args < 3:
             print("error: expected at least 3 arguments", file=sys.stderr)
