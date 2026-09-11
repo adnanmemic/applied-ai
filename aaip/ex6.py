@@ -2,7 +2,12 @@ import sys
 
 
 def count_words(path: str) -> int:
-    pass
+    word_count = 0
+    with open(path, "r", encoding="utf-8") as file:
+        for line in file:
+            word_count += len(line.split())
+
+    return word_count
 
 
 def count_lines(path: str) -> int:
@@ -11,6 +16,7 @@ def count_lines(path: str) -> int:
 
 def search_word(path: str, word: str) -> list[str]:
     pass
+
 
 def main() -> None:
     args = len(sys.argv) - 1  # ignore the filename
@@ -22,7 +28,8 @@ def main() -> None:
     action = sys.argv[2]
 
     if action == "count_words":
-        count_words(file_path)
+        word_count = count_words(file_path)
+        print("Words: ", word_count)
     elif action == "count_lines":
         count_lines(file_path)
     elif action == "search_word":
@@ -30,7 +37,7 @@ def main() -> None:
             print("error: expected at least 3 arguments", file=sys.stderr)
             sys.exit(2)
 
-        word = sys.argv[3] 
+        word = sys.argv[3]
         search_word(file_path, word)
     else:
         print(
@@ -41,6 +48,7 @@ def main() -> None:
             file=sys.stderr,
         )
         sys.exit(2)
+
 
 if __name__ == "__main__":
     main()
