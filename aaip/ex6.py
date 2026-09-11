@@ -27,7 +27,7 @@ def search_word(path: str, word: str) -> list[str]:
     with open(path, "r", encoding="utf-8") as file:
         for line in file:
             if word in line:
-                line_list.append(line)
+                line_list.append(line.rstrip("\n"))
 
     return line_list
 
@@ -56,8 +56,7 @@ def main() -> None:
             word = sys.argv[3]
             lines_found = search_word(file_path, word)
             for line in lines_found:
-                print(line, end="")  # remove the extra newline characters at the end
-            print()  # additional newline to make the output readable
+                print(line)  # remove the extra newline characters at the end
         else:
             print(
                 "Error: action must be one of: ",
