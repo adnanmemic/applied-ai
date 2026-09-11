@@ -19,6 +19,9 @@ def count_lines(path: str) -> int:
 
 
 def search_word(path: str, word: str) -> list[str]:
+    if not word.strip():
+        raise ValueError
+
     line_list = []
     with open(path, "r", encoding="utf-8") as file:
         for line in file:
@@ -66,6 +69,9 @@ def main() -> None:
     except FileNotFoundError:
         print(f"Error: file not found: {file_path}", file=sys.stderr)
         sys.exit(1)
+    except ValueError:
+        print(f"Error: word cannot be empty or whispace: {file_path}", file=sys.stderr)
+        sys.exit(2)
 
 
 if __name__ == "__main__":
