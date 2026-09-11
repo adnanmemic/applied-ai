@@ -11,7 +11,11 @@ def count_words(path: str) -> int:
 
 
 def count_lines(path: str) -> int:
-    pass
+    line_count = 0
+    with open(path, "r", encoding="utf-8") as file:
+        for _ in file:
+            line_count += 1
+    return line_count
 
 
 def search_word(path: str, word: str) -> list[str]:
