@@ -19,13 +19,14 @@ def count_lines(path: str) -> int:
 
 
 def search_word(path: str, word: str) -> list[str]:
-    line_list = [] 
+    line_list = []
     with open(path, "r", encoding="utf-8") as file:
         for line in file:
             if word in line:
                 line_list.append(line)
 
     return line_list
+
 
 def main() -> None:
     args = len(sys.argv) - 1  # ignore the filename
