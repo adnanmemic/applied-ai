@@ -30,37 +30,41 @@ def search_word(path: str, word: str) -> list[str]:
 def main() -> None:
     args = len(sys.argv) - 1  # ignore the filename
     if args < 2:
-        print("error: expected at least 2 arguments", file=sys.stderr)
+        print("Error: expected at least 2 arguments", file=sys.stderr)
         sys.exit(2)
 
     file_path = sys.argv[1]
     action = sys.argv[2]
 
-    if action == "count_words":
-        word_count = count_words(file_path)
-        print("Words: ", word_count)
-    elif action == "count_lines":
-        line_count = count_lines(file_path)
-        print("Lines: ", line_count)
-    elif action == "search_word":
-        if args < 3:
-            print("error: expected at least 3 arguments", file=sys.stderr)
-            sys.exit(2)
+    try:
+        if action == "count_words":
+            word_count = count_words(file_path)
+            print("Words: ", word_count)
+        elif action == "count_lines":
+            line_count = count_lines(file_path)
+            print("Lines: ", line_count)
+        elif action == "search_word":
+            if args < 3:
+                print("Error: expected at least 3 arguments", file=sys.stderr)
+                sys.exit(2)
 
-        word = sys.argv[3]
-        lines_found = search_word(file_path, word)
-        for line in lines_found:
-            print(line, end="")  # remove newline characters at the end
-        print()  # additional newline to make the output readable
-    else:
-        print(
-            "error: action must be one of: ",
-            "\n - count_words",
-            "\n - count_lines",
-            "\n - search_word",
-            file=sys.stderr,
-        )
-        sys.exit(2)
+            word = sys.argv[3]
+            lines_found = search_word(file_path, word)
+            for line in lines_found:
+                print(line, end="")  # remove the extra newline characters at the end
+            print()  # additional newline to make the output readable
+        else:
+            print(
+                "Error: action must be one of: ",
+                "\n - count_words",
+                "\n - count_lines",
+                "\n - search_word",
+                file=sys.stderr,
+            )
+            sys.exit(2)
+    except FileNotFoundError:
+        print(f"Error: file not found: {file_path}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
