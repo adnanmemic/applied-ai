@@ -30,7 +30,7 @@ jobs:
         run: uv run ruff check .
 
       - name: Run Test
-        run: uv run coverage run -m unittest
+        run: uv run coverage run -m unittest discover -s tests
 
       - name: Report
         run: uv run coverage report -m
