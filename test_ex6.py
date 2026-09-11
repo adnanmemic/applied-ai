@@ -18,4 +18,17 @@ class TestCommanLineTool(unittest.TestCase):
     def test_count_words(self):
         word_count = ex6.count_words(self.file_path)
         self.assertEqual(word_count, 7)
+    
+    def test_count_lines(self):
+        line_count = ex6.count_lines(self.file_path)
+        self.assertEqual(line_count, 2)
+
+    def test_search_word(self):
+        line_list = ex6.search_word(self.file_path, "sentence")
+        self.assertEqual(line_list, ["This is a sentence"])
         
+    def test_search_word_with_empty_word(self):
+        with self.assertRaises(ValueError):
+            ex6.search_word(self.file_path, "")
+        with self.assertRaises(ValueError):
+            ex6.search_word(self.file_path, "   ")
