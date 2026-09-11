@@ -15,6 +15,7 @@ def count_lines(path: str) -> int:
     with open(path, "r", encoding="utf-8") as file:
         for _ in file:
             line_count += 1
+
     return line_count
 
 
