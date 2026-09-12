@@ -19,6 +19,11 @@ dev = [
 [tool.coverage.run]
 source = ["aaip"]
 
+[tool.coverage.report]
+exclude_also = [
+    "if __name__ == .__main__.:",
+]
+
 [build-system]
 requires = ["uv_build>=0.12.12,<0.13.0"]
 build-backend = "uv_build"
