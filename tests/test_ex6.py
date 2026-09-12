@@ -1,8 +1,7 @@
 import os
-import sys
 import unittest
-from unittest.mock import patch
 from tempfile import NamedTemporaryFile
+from unittest.mock import patch
 
 from aaip import ex6
 
