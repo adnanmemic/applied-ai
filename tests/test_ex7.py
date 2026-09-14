@@ -2,6 +2,8 @@ import os
 import unittest
 from tempfile import TemporaryDirectory
 
+from aaip import ex7
+
 
 class FileManagerTestCases(unittest.TestCase):
     def setUp(self):
@@ -18,17 +20,27 @@ class FileManagerTestCases(unittest.TestCase):
             "move_dir": "move-dir",
         }
 
-        self.joined_dir_paths = {
+        # join 
+        self.full_dir_paths = {
             key: os.path.join(self.root_path, path) for key, path in dir_paths.items()
         }
 
-        for joined_dir_path in self.joined_dir_paths.values():
+        # creates all needed directories
+        for joined_dir_path in self.full_dir_paths.values():
             os.makedirs(joined_dir_path, exist_ok=True)
 
+        # paths of the created directories
+        self.copy_dir_paths = [
+            self.full_dir_paths["copy_dir1"],
+            self.full_dir_paths["copy_dir2"],
+            self.full_dir_paths["copy_dir3"],
+        ]
+        self.move_dir_path = self.full_dir_paths["move_dir"]
+
         # create test file
-        test_file_name = "test_file.txt"
-        test_file_path = os.path.join(self.root_path, test_file_name)
-        with open(test_file_path, "w"):
+        self.test_file_name = "test_file.txt"
+        self.test_file_path = os.path.join(self.root_path, self.test_file_name)
+        with open(self.test_file_path, "w"):
             pass
 
     def tearDown(self):
@@ -37,3 +49,13 @@ class FileManagerTestCases(unittest.TestCase):
                 full_file_path = os.path.join(dirpath, file)
                 os.remove(full_file_path)
             os.rmdir(dirpath)
+
+    def test_copy_file(self):
+        ex7.copy_file(self.test_file_path, self.copy_dir_paths)
+
+        for path in self.copy_dir_paths:
+            # paths of the copied files
+            copied_file_path = os.path.join(path, self.test_file_name)
+
+            with self.subTest(copied_file_path=copied_file_path):
+                self.assertTrue(os.path.isfile(copied_file_path))
