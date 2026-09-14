@@ -35,6 +35,16 @@ def rename_file(src: str, dst: str) -> None:
     os.rename(src, dst)
 
 
+def check_dst_len(dst: list[str]) -> True | False:
+    if len(dst) != 1:  # file can only be moved to one location
+        print(
+            "Error: argument --dst: expected exactly one argument",
+            file=sys.stderr,
+        )
+        return True
+    return False
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="file_manager",
@@ -51,23 +61,17 @@ def main() -> None:
             print(f"Copied file from {args.src} to {args.dst}")
 
         elif args.mode == "move":
-            if len(args.dst) != 1:  # file can only be moved to one location
-                print(
-                    "Error: argument --dst: expected exactly one argument",
-                    file=sys.stderr,
-                )
+            if check_dst_len(args.dst):
                 sys.exit(2)
+
             (destination,) = args.dst  # to avoid a list with one destination path
             move_file(args.src, destination)
             print(f"Moved file from {args.src} to {destination}")
 
         elif args.mode == "rename":
-            if len(args.dst) != 1:  # file can only be renamed to one name
-                print(
-                    "Error: argument --dst: expected exactly one argument",
-                    file=sys.stderr,
-                )
+            if check_dst_len(args.dst):
                 sys.exit(2)
+
             (destination,) = args.dst  # to avoid a list with one destination path
             rename_file(args.src, destination)
             print(f"Renamed {args.src} to {destination}")
