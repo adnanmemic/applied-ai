@@ -48,7 +48,7 @@ def check_dst_len(dst: list[str]) -> True | False:
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="file_manager",
-        description="A tool that manages file. Following actions are supported: copy, move and rename",
+        description="A tool that manages files. Following actions are supported: copy, move and rename",
     )
     parser.add_argument("mode", help="modes: copy, move or rename")
     parser.add_argument("--src", required=True, help="source")
