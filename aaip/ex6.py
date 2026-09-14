@@ -45,9 +45,11 @@ def main() -> None:
         if action == "count_words":
             word_count = count_words(file_path)
             print("Words: ", word_count)
+
         elif action == "count_lines":
             line_count = count_lines(file_path)
             print("Lines: ", line_count)
+
         elif action == "search_word":
             if args < 3:
                 print("Error: expected at least 3 arguments", file=sys.stderr)
@@ -66,9 +68,11 @@ def main() -> None:
                 file=sys.stderr,
             )
             sys.exit(2)
+
     except FileNotFoundError:
         print(f"Error: file not found: {file_path}", file=sys.stderr)
         sys.exit(1)
+
     except ValueError:
         print("Error: word cannot be empty or whitespace", file=sys.stderr)
         sys.exit(2)
