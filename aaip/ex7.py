@@ -9,7 +9,7 @@ def copy_file(src: str, dst: list[str]) -> None:
         raise ValueError("Error: Source cannot be empty.")
 
     for destination in dst:
-        if not dst:
+        if not destination:
             raise ValueError("Error: Destination cannot be empty.")
 
         shutil.copy(src, destination)

@@ -11,31 +11,23 @@ class FileManagerTestCases(unittest.TestCase):
             self.root_path = tmpdir
 
         # create directories
-        dir_paths = {
-            # directory to copy file into
-            "copy_dir1": "copy-dir/copy1",
-            "copy_dir2": "copy-dir/copy2",
-            "copy_dir3": "copy-dir/copy3",
-            # directory to move file into
-            "move_dir": "move-dir",
-        }
+        copy_dir_paths = [
+            "copy-dir/copy1",
+            "copy-dir/copy2",
+            "copy-dir/copy3",
+        ]
+        # directory to move file into
+        self.full_move_dir_path = os.path.join(self.root_path, "move-dir")
 
-        # join 
-        self.full_dir_paths = {
-            key: os.path.join(self.root_path, path) for key, path in dir_paths.items()
-        }
+        self.full_copy_dir_paths = [
+            os.path.join(self.root_path, copy_dir_path)
+            for copy_dir_path in copy_dir_paths
+        ]
 
         # creates all needed directories
-        for joined_dir_path in self.full_dir_paths.values():
-            os.makedirs(joined_dir_path, exist_ok=True)
-
-        # paths of the created directories
-        self.copy_dir_paths = [
-            self.full_dir_paths["copy_dir1"],
-            self.full_dir_paths["copy_dir2"],
-            self.full_dir_paths["copy_dir3"],
-        ]
-        self.move_dir_path = self.full_dir_paths["move_dir"]
+        for full_copy_dir_path in self.full_copy_dir_paths:
+            os.makedirs(full_copy_dir_path, exist_ok=True)
+        os.makedirs(self.full_move_dir_path, exist_ok=True)
 
         # create test file
         self.test_file_name = "test_file.txt"
@@ -51,11 +43,19 @@ class FileManagerTestCases(unittest.TestCase):
             os.rmdir(dirpath)
 
     def test_copy_file(self):
-        ex7.copy_file(self.test_file_path, self.copy_dir_paths)
+        ex7.copy_file(self.test_file_path, self.full_copy_dir_paths)
 
-        for path in self.copy_dir_paths:
+        for full_copy_dir_path in self.full_copy_dir_paths:
             # paths of the copied files
-            copied_file_path = os.path.join(path, self.test_file_name)
+            copied_file_path = os.path.join(full_copy_dir_path, self.test_file_name)
 
             with self.subTest(copied_file_path=copied_file_path):
                 self.assertTrue(os.path.isfile(copied_file_path))
+
+    def test_copy_file_empty_src_path(self):
+        with self.assertRaises(ValueError):
+            ex7.copy_file("", self.full_copy_dir_paths)
+
+    def test_copy_file_empty_destination_path(self):
+        with self.assertRaises(ValueError):
+            ex7.copy_file(self.test_file_path, [""])
