@@ -157,3 +157,38 @@ class FileManagerTestCases(unittest.TestCase):
 
         renamed_file_path = os.path.join(self.root_path, new_file_path)
         self.assertTrue(os.path.isfile(renamed_file_path))
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_move_to_more_than_one_dst(self, mock_argv):
+        mock_argv.extend([
+            "aaip/ex7.py",
+            "move",
+            "--src",
+            self.test_file_path,
+            "--dst",
+            "dir1",
+            "dir2"
+        ])
+
+        with self.assertRaises(SystemExit) as e:
+            ex7.main()
+
+        self.assertEqual(e.exception.code, 2)
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_rename_to_more_than_one_dst(self, mock_argv):
+        mock_argv.extend([
+            "aaip/ex7.py",
+            "rename",
+            "--src",
+            self.test_file_path,
+            "--dst",
+            "file1",
+            "file2"
+        ])
+
+        with self.assertRaises(SystemExit) as e:
+            ex7.main()
+
+        self.assertEqual(e.exception.code, 2)
+        
