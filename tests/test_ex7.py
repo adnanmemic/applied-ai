@@ -91,3 +91,12 @@ class FileManagerTestCases(unittest.TestCase):
     def test_rename_file_empty_destination_path(self):
         with self.assertRaises(ValueError):
             ex7.rename_file(self.test_file_path, "")
+
+    def test_check_dst_len_true(self):
+        values = [[], ["dir1", "dir2"]]
+        for value in values:
+            with self.subTest(value=value):
+                self.assertTrue(ex7.check_dst_len(value))
+
+    def test_check_dst_len_false(self):
+        self.assertFalse(ex7.check_dst_len(["dir"]))
