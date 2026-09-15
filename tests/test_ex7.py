@@ -1,6 +1,8 @@
 import os
+import sys
 import unittest
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from aaip import ex7
 
@@ -92,11 +94,66 @@ class FileManagerTestCases(unittest.TestCase):
         with self.assertRaises(ValueError):
             ex7.rename_file(self.test_file_path, "")
 
-    def test_check_dst_len_true(self):
+    def test_check_dst_len_not_one_destination(self):
         values = [[], ["dir1", "dir2"]]
         for value in values:
             with self.subTest(value=value):
                 self.assertTrue(ex7.check_dst_len(value))
 
-    def test_check_dst_len_false(self):
+    def test_check_dst_len_one_destination(self):
         self.assertFalse(ex7.check_dst_len(["dir"]))
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_copy(self, mock_argv):
+        mock_argv.extend([
+            "aaip/ex7.py",
+            "copy",
+            "--src",
+            self.test_file_path,
+            "--dst",
+            self.full_copy_dir_paths[0],
+            self.full_copy_dir_paths[1],
+            self.full_copy_dir_paths[2]
+        ])
+        ex7.main()
+
+        for full_copy_dir_path in self.full_copy_dir_paths:
+            # paths of the copied files
+            copied_file_path = os.path.join(full_copy_dir_path, self.test_file_name)
+
+            with self.subTest(copied_file_path=copied_file_path):
+                self.assertTrue(os.path.isfile(copied_file_path))
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_move(self, mock_argv):
+        mock_argv.extend([
+            "aaip/ex7.py",
+            "move",
+            "--src",
+            self.test_file_path,
+            "--dst",
+            self.full_move_dir_path
+        ])
+        ex7.main()
+
+        moved_file_path = os.path.join(self.full_move_dir_path, self.test_file_name)
+        self.assertTrue(os.path.isfile(moved_file_path))
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_rename(self, mock_argv):
+        new_file_name = "another_name.txt"
+        new_file_path = os.path.join(self.root_path, new_file_name)
+
+        mock_argv.extend([
+            "aaip/ex7.py",
+            "rename",
+            "--src",
+            self.test_file_path,
+            "--dst",
+            new_file_path
+        ])
+
+        ex7.main()
+
+        renamed_file_path = os.path.join(self.root_path, new_file_path)
+        self.assertTrue(os.path.isfile(renamed_file_path))
