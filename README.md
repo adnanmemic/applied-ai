@@ -2,7 +2,7 @@
 [![Test](https://github.com/adnanmemic/applied-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/adnanmemic/applied-ai/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 
-Assignments and a project for the Applied AI course, covering Python, NumPy, Pandas, Matplotlib, Seaborn, Machine Learning, and Deep Learning.
+Solutions to assignments and a project from the Applied AI course, covering Python, NumPy, Pandas, Matplotlib, Seaborn, machine learning, and deep learning.
 
 # Tests
 
