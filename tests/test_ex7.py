@@ -73,3 +73,21 @@ class FileManagerTestCases(unittest.TestCase):
     def test_move_file_empty_destination_path(self):
         with self.assertRaises(ValueError):
             ex7.move_file(self.test_file_path, "")
+
+    def test_rename_file(self):
+        new_file_name = "another_name.txt"
+        new_file_path = os.path.join(self.root_path, new_file_name)
+
+        ex7.rename_file(self.test_file_path, new_file_path)
+        self.assertTrue(os.path.isfile(new_file_path))
+
+    def test_rename_file_empty_src_path(self):
+        new_file_name = "another_name.txt"
+        new_file_path = os.path.join(self.root_path, new_file_name)
+
+        with self.assertRaises(ValueError):
+            ex7.rename_file("", new_file_path)
+
+    def test_rename_file_empty_destination_path(self):
+        with self.assertRaises(ValueError):
+            ex7.rename_file(self.test_file_path, "")
