@@ -59,3 +59,17 @@ class FileManagerTestCases(unittest.TestCase):
     def test_copy_file_empty_destination_path(self):
         with self.assertRaises(ValueError):
             ex7.copy_file(self.test_file_path, [""])
+
+    def test_move_file(self):
+        ex7.move_file(self.test_file_path, self.full_move_dir_path)
+
+        moved_file_path = os.path.join(self.full_move_dir_path, self.test_file_name)
+        self.assertTrue(os.path.isfile(moved_file_path))
+
+    def test_move_file_empty_src_path(self):
+        with self.assertRaises(ValueError):
+            ex7.move_file("", self.full_move_dir_path)
+
+    def test_move_file_empty_destination_path(self):
+        with self.assertRaises(ValueError):
+            ex7.move_file(self.test_file_path, "")
