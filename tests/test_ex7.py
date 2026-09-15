@@ -1,5 +1,4 @@
 import os
-import sys
 import unittest
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
@@ -105,16 +104,18 @@ class FileManagerTestCases(unittest.TestCase):
 
     @patch("sys.argv", new_callable=list)
     def test_main_copy(self, mock_argv):
-        mock_argv.extend([
-            "aaip/ex7.py",
-            "copy",
-            "--src",
-            self.test_file_path,
-            "--dst",
-            self.full_copy_dir_paths[0],
-            self.full_copy_dir_paths[1],
-            self.full_copy_dir_paths[2]
-        ])
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "copy",
+                "--src",
+                self.test_file_path,
+                "--dst",
+                self.full_copy_dir_paths[0],
+                self.full_copy_dir_paths[1],
+                self.full_copy_dir_paths[2],
+            ]
+        )
         ex7.main()
 
         for full_copy_dir_path in self.full_copy_dir_paths:
@@ -126,14 +127,16 @@ class FileManagerTestCases(unittest.TestCase):
 
     @patch("sys.argv", new_callable=list)
     def test_main_move(self, mock_argv):
-        mock_argv.extend([
-            "aaip/ex7.py",
-            "move",
-            "--src",
-            self.test_file_path,
-            "--dst",
-            self.full_move_dir_path
-        ])
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "move",
+                "--src",
+                self.test_file_path,
+                "--dst",
+                self.full_move_dir_path,
+            ]
+        )
         ex7.main()
 
         moved_file_path = os.path.join(self.full_move_dir_path, self.test_file_name)
@@ -144,14 +147,16 @@ class FileManagerTestCases(unittest.TestCase):
         new_file_name = "another_name.txt"
         new_file_path = os.path.join(self.root_path, new_file_name)
 
-        mock_argv.extend([
-            "aaip/ex7.py",
-            "rename",
-            "--src",
-            self.test_file_path,
-            "--dst",
-            new_file_path
-        ])
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "rename",
+                "--src",
+                self.test_file_path,
+                "--dst",
+                new_file_path,
+            ]
+        )
 
         ex7.main()
 
@@ -160,15 +165,17 @@ class FileManagerTestCases(unittest.TestCase):
 
     @patch("sys.argv", new_callable=list)
     def test_main_move_to_more_than_one_dst(self, mock_argv):
-        mock_argv.extend([
-            "aaip/ex7.py",
-            "move",
-            "--src",
-            self.test_file_path,
-            "--dst",
-            "dir1",
-            "dir2"
-        ])
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "move",
+                "--src",
+                self.test_file_path,
+                "--dst",
+                "dir1",
+                "dir2",
+            ]
+        )
 
         with self.assertRaises(SystemExit) as e:
             ex7.main()
@@ -177,18 +184,19 @@ class FileManagerTestCases(unittest.TestCase):
 
     @patch("sys.argv", new_callable=list)
     def test_main_rename_to_more_than_one_dst(self, mock_argv):
-        mock_argv.extend([
-            "aaip/ex7.py",
-            "rename",
-            "--src",
-            self.test_file_path,
-            "--dst",
-            "file1",
-            "file2"
-        ])
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "rename",
+                "--src",
+                self.test_file_path,
+                "--dst",
+                "file1",
+                "file2",
+            ]
+        )
 
         with self.assertRaises(SystemExit) as e:
             ex7.main()
 
         self.assertEqual(e.exception.code, 2)
-        
