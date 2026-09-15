@@ -35,7 +35,7 @@ def rename_file(src: str, dst: str) -> None:
     os.rename(src, dst)
 
 
-def check_dst_len(dst: list[str]) -> True | False:
+def check_dst_len(dst: list[str]) -> bool:
     if len(dst) != 1:  # file can only be moved to one location
         print(
             "Error: argument --dst: expected exactly one argument",
@@ -84,7 +84,7 @@ def main() -> None:
             sys.exit(1)
 
     except ValueError as e:
-        print(e)
+        print(e, file=sys.stderr)
         sys.exit(1)
 
     except FileNotFoundError as e:
