@@ -2,8 +2,7 @@
 [![Test](https://github.com/adnanmemic/applied-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/adnanmemic/applied-ai/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 
-Exercises and projects for the Applied AI course, covering Python, NumPy, 
-Pandas, Matplotlib, Seaborn, Machine Learning, and Deep Learning.
+Assignments and a project for the Applied AI course, covering Python, NumPy, Pandas, Matplotlib, Seaborn, Machine Learning, and Deep Learning.
 
 # Tests
 
@@ -14,7 +13,7 @@ python3 -m unittest
 
 Testing with coverage report:
 ```bash
-coverage run -m unittest
+coverage run -m unittest discover tests
 ```
 then
 ```bash
