@@ -200,3 +200,78 @@ class FileManagerTestCases(unittest.TestCase):
             ex7.main()
 
         self.assertEqual(e.exception.code, 2)
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_wrong_positional_arg(self, mock_argv):
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "chmod",
+                "--src",
+                self.test_file_path,
+                "--dst",
+                "file1",
+                "file2",
+            ]
+        )
+
+        with self.assertRaises(SystemExit) as e:
+            ex7.main()
+
+        self.assertEqual(e.exception.code, 1)
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_empty_source(self, mock_argv):
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "copy",
+                "--src",
+                "",
+                "--dst",
+                "file1",
+                "file2",
+            ]
+        )
+
+        with self.assertRaises(SystemExit) as e:
+            ex7.main()
+
+        self.assertEqual(e.exception.code, 1)
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_empty_destination(self, mock_argv):
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "copy",
+                "--src",
+                self.test_file_path,
+                "--dst",
+                "",
+            ]
+        )
+
+        with self.assertRaises(SystemExit) as e:
+            ex7.main()
+
+        self.assertEqual(e.exception.code, 1)
+
+    @patch("sys.argv", new_callable=list)
+    def test_main_file_not_found_error(self, mock_argv):
+        mock_argv.extend(
+            [
+                "aaip/ex7.py",
+                "copy",
+                "--src",
+                "file_does_not_exist",
+                "--dst",
+                "file1",
+                "file2",
+            ]
+        )
+
+        with self.assertRaises(SystemExit) as e:
+            ex7.main()
+
+        self.assertEqual(e.exception.code, 1)
