@@ -1,13 +1,26 @@
 import csv
 
 
-def get_students_from_csv(path: str) -> list[dict[str, str]] | None:
+def get_students_from_csv(path: str) -> list[dict[str, str]]:
+    """Load students from the specified CSV file and return them as dictionaries.
+
+    Args:
+        path: Path to the CSV file.
+
+    Returns:
+        A list of dictionaries containing students.
+    """
     with open(path, "r", encoding="utf-8", newline="") as f:
         database = list(csv.DictReader(f))
         return database
 
 
 def add_student(database: list[dict[str, str]]) -> None:
+    """Add students to the database.
+
+    Args:
+        database: List containing students.
+    """
     while True:
         print("Enter the students name: ")
         name = input()
@@ -39,7 +52,21 @@ def search_student(
     student_id: int | None = None,
     name: str | None = None,
 ) -> dict[str, str] | None:
+    """Search for a student by ID or name.
 
+    Args:
+        database: List containing students.
+        student_id: Id of the student that is being searched for.
+        name: Name of the student that is being searched for.
+
+    Returns:
+        A dictionary containing the student's information.
+
+    Raises:
+        TypeError: If a student_id is not an integer or name is not a string.
+        ValueError: If student_id is less than 1, name is empty or contains 
+            only whitespace, or neither student_id nor name was specified.
+    """
     if not database:
         print("Database is empty!")
         return
@@ -77,12 +104,24 @@ def search_student(
     else:
         raise ValueError("Either ID or Name must be provided!")
 
-    return None
+    return
 
 
 def change_grade(
     database: list[dict[str, str]], student_id: int, new_grade: int
 ) -> None:
+    """Change the grade of a student.
+
+    Args:
+        database: List containing students.
+        student_id: ID of the student that is being searched for.
+        new_grade: The new grade.
+
+    Raises:
+        TypeError: If student_id or new_grade is not an integer.
+        ValueError: If database is empty, student_id is less than 1, or new_grade
+            is not between 1 and 5.
+    """
     if not database:
         raise ValueError("Database is empty!")
 
@@ -105,6 +144,12 @@ def change_grade(
 
 
 def store_students_into_csv(database: list[dict[str, str]], path: str) -> None:
+    """Store the students in the specified CSV file.
+
+    Args:
+        database: List containing students.
+        path: Path to the CSV file.
+    """
     with open(path, "w", encoding="utf-8", newline="") as f:
         fieldnames = ["id", "name", "grade"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
