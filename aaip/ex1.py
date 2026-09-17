@@ -1,4 +1,14 @@
 def hello_python_exercise(num_students: int, student_name: str = "Adnan Memic") -> None:
+    """Print the number of students in this course and the student's name.
+
+    Args:
+        num_students: Number of students in this course.
+        student_name: Name of the student.
+
+    Raises:
+        TypeError: If num_students is not an integer or student_name is not a string.
+        ValueError: If num_students is negative or student_name is empty.
+    """
     if not isinstance(num_students, int):
         raise TypeError("num_students must be an integer.")
     if num_students < 0:

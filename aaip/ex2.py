@@ -64,7 +64,7 @@ def search_student(
 
     Raises:
         TypeError: If a student_id is not an integer or name is not a string.
-        ValueError: If student_id is less than 1, name is empty or contains 
+        ValueError: If student_id is less than 1, name is empty or contains
             only whitespace, or neither student_id nor name was specified.
     """
     if not database:
