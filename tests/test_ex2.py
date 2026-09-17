@@ -1,6 +1,6 @@
 import csv
+import os
 import unittest
-from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
@@ -22,15 +22,15 @@ class TestStudentDatabase(unittest.TestCase):
         content = self.database
 
         with TemporaryDirectory() as tmpdir:
-            path_name = str(Path(tmpdir) / "data.csv")
+            file_path = os.path.join(tmpdir, "data.csv")
 
-            with open(path_name, "w", encoding="utf-8", newline="") as file:
+            with open(file_path, "w", encoding="utf-8", newline="") as file:
                 fieldnames = ["id", "name", "grade"]
                 csv_writer = csv.DictWriter(file, fieldnames)
                 csv_writer.writeheader()
                 csv_writer.writerows(content)
 
-            database = ex2.get_students_from_csv(path_name)
+            database = ex2.get_students_from_csv(file_path)
 
             self.assertEqual(database, content)
 
@@ -135,10 +135,10 @@ class TestStudentDatabase(unittest.TestCase):
         file_content = []
 
         with TemporaryDirectory() as tmpdir:
-            path_name = str(Path(tmpdir) / "data.csv")
-            ex2.store_students_into_csv(self.database, path_name)
+            file_path = os.path.join(tmpdir, "data.csv")
 
-            with open(path_name, "r", encoding="utf-8", newline="") as file:
+            ex2.store_students_into_csv(self.database, file_path)
+            with open(file_path, "r", encoding="utf-8", newline="") as file:
                 file_content = list(csv.DictReader(file))
 
         self.assertEqual(file_content, self.database)
