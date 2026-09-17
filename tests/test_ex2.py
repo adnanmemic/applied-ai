@@ -19,7 +19,7 @@ class TestStudentDatabase(unittest.TestCase):
         self.empty_database = []
 
     def test_get_students_from_csv(self):
-        content = self.database
+        file_content = self.database
 
         with TemporaryDirectory() as tmpdir:
             file_path = os.path.join(tmpdir, "data.csv")
@@ -28,52 +28,61 @@ class TestStudentDatabase(unittest.TestCase):
                 fieldnames = ["id", "name", "grade"]
                 csv_writer = csv.DictWriter(file, fieldnames)
                 csv_writer.writeheader()
-                csv_writer.writerows(content)
+                csv_writer.writerows(file_content)
 
             database = ex2.get_students_from_csv(file_path)
 
-            self.assertEqual(database, content)
+            self.assertEqual(database, file_content)
 
-    def test_add_student(self):
-        with patch("builtins.input", side_effect=["Bob", "3", ""]):
-            ex2.add_student(self.database)
+    @patch("builtins.input")
+    def test_add_student(self, mock_input):
+        mock_input.side_effect = ["Bob", "3", ""]
+        ex2.add_student(self.database)
 
         self.assertEqual(self.database[-1], {"id": "5", "name": "Bob", "grade": "3"})
 
-    def test_add_student_wrong_grade_type(self):
-        with patch("builtins.input", side_effect=["Bob", "not_a_number", ""]):
-            ex2.add_student(self.empty_database)
+    @patch("builtins.input")
+    def test_add_student_wrong_grade_type(self, mock_input):
+        mock_input.side_effect = ["Bob", "not_a_number", ""]
+        ex2.add_student(self.empty_database)
 
         self.assertEqual(self.empty_database, [])
 
-    def test_add_student_grade_out_of_range(self):
-        with patch("builtins.input", side_effect=["Bob", "0", ""]):
-            ex2.add_student(self.empty_database)
+    @patch("builtins.input")
+    def test_add_student_grade_out_of_range(self, mock_input):
+        values = [("Bob", "0", ""), ("Bob", "6", "")]
 
-        with patch("builtins.input", side_effect=["Bob", "6", ""]):
-            ex2.add_student(self.empty_database)
+        for value in values:
+            with self.subTest(value=value):
+                mock_input.side_effect = value
+                ex2.add_student(self.empty_database)
 
-        self.assertEqual(self.empty_database, [])
+                self.assertEqual(self.empty_database, [])
 
-    def test_add_student_to_empty_database(self):
-        with patch("builtins.input", side_effect=["Bob", "3", ""]):
-            ex2.add_student(self.empty_database)
+    @patch("builtins.input")
+    def test_add_student_to_empty_database(self, mock_input):
+        mock_input.side_effect = ["Bob", "3", ""]
+        ex2.add_student(self.empty_database)
 
+        # The id of the first student must be 1
         self.assertEqual(self.empty_database[0]["id"], "1")
 
-    def test_search_student(self):
+    def test_search_student_for_id(self):
         self.assertEqual(
             ex2.search_student(self.database, student_id=3),
             {"id": "3", "name": "Sergei", "grade": "2"},
         )
 
+    def test_search_student_for_name(self):
         self.assertEqual(
             ex2.search_student(self.database, name="Trevor"),
             {"id": "2", "name": "Trevor", "grade": "4"},
         )
 
-    def test_search_student_empty_database(self):
+    def test_search_student_for_name_in_empty_database(self):
         self.assertIsNone(ex2.search_student(self.empty_database, student_id=5))
+
+    def test_search_student_for_id_in_empty_database(self):
         self.assertIsNone(ex2.search_student(self.empty_database, name="Josh"))
 
     def test_search_student_wrong_student_id_type(self):
@@ -89,18 +98,19 @@ class TestStudentDatabase(unittest.TestCase):
             ex2.search_student(self.database, name=5)
 
     def test_search_student_empty_name(self):
-        with self.assertRaises(ValueError):
-            ex2.search_student(self.database, name="")
-
-        with self.assertRaises(ValueError):
-            ex2.search_student(self.database, name="   ")
+        values = ["", "   "]
+        for value in values:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                ex2.search_student(self.database, name=value)
 
     def test_search_student_with_no_name_no_id(self):
         with self.assertRaises(ValueError):
             ex2.search_student(self.database)
 
-    def test_no_student_was_found(self):
+    def test_no_student_was_found_id(self):
         self.assertIsNone(ex2.search_student(self.database, student_id=5))
+
+    def test_no_student_was_found_name(self):
         self.assertIsNone(ex2.search_student(self.database, name="Josh"))
 
     def test_change_grade(self):
@@ -125,11 +135,10 @@ class TestStudentDatabase(unittest.TestCase):
             ex2.change_grade(self.database, 0, 3)
 
     def test_change_grade_wrong_grade_range(self):
-        with self.assertRaises(ValueError):
-            ex2.change_grade(self.database, 2, 0)
-
-        with self.assertRaises(ValueError):
-            ex2.change_grade(self.database, 2, 6)
+        values = [0, 6]
+        for value in values:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                ex2.change_grade(self.database, 2, value)
 
     def test_store_students_into_csv(self):
         file_content = []
