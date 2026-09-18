@@ -30,9 +30,14 @@ class TestPerson(unittest.TestCase):
 
     def test_from_string_attribute_values(self):
         person = ex3.Person.from_string("John, 26, Somestreet 50")
-        self.assertEqual(person.name, "John")
-        self.assertEqual(person.age, 26)
-        self.assertEqual(person.address, "Somestreet 50")
+        values = [
+            (person.name, "John"),
+            (person.age, 26),
+            (person.address, "Somestreet 50")
+        ]
+        for value in values:
+            with self.subTest(value=value):
+                self.assertEqual(*value)
 
     def test_from_string_returns_person(self):
         person = ex3.Person.from_string("John, 26, Somestreet 50")
