@@ -15,13 +15,13 @@ class Person:
                 is not a string.
         """
         if not isinstance(name, str):
-            raise TypeError("Name must be a string!")
+            raise TypeError("name must be a string!")
 
         if not isinstance(age, int):
-            raise TypeError("Age must be an integer!")
+            raise TypeError("age must be an integer!")
 
         if not isinstance(address, str):
-            raise TypeError("Address must be a string!")
+            raise TypeError("address must be a string!")
 
         self.name = name
         self.age = age
@@ -49,7 +49,7 @@ class Person:
             TypeError: If person_string is not a string.
         """
         if not isinstance(person_string, str):
-            raise TypeError("Methodparameter must be a string")
+            raise TypeError("person_string must be a string")
 
         name, age, address = [x.strip() for x in person_string.split(",")]
         return cls(name, int(age), address)
@@ -71,7 +71,7 @@ class Student(Person):
         """
         super().__init__(name, age, address)
         if not isinstance(university, str):
-            raise TypeError("University must be a string!")
+            raise TypeError("university must be a string!")
 
         self.university = university
 
