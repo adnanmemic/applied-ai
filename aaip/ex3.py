@@ -1,3 +1,6 @@
+from typing import Self
+
+
 class Person:
     def __init__(self, name: str, age: int, address: str) -> None:
         """Initialize a person.
@@ -24,7 +27,7 @@ class Person:
         self.age = age
         self.address = address
 
-    def greet(self):
+    def greet(self) -> str:
         """Greet the person by name.
 
         Returns:
@@ -33,7 +36,7 @@ class Person:
         return f"Greetings to {self.name}"
 
     @classmethod
-    def from_string(cls, person_string: str):
+    def from_string(cls, person_string: str) -> Self:
         """Create a new object from a specified string.
 
         Args:
@@ -72,7 +75,7 @@ class Student(Person):
 
         self.university = university
 
-    def greet(self):
+    def greet(self) -> str:
         """Greet the student by name.
 
         Returns:
