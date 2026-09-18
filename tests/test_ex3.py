@@ -33,7 +33,7 @@ class TestPerson(unittest.TestCase):
         values = [
             (person.name, "John"),
             (person.age, 26),
-            (person.address, "Somestreet 50")
+            (person.address, "Somestreet 50"),
         ]
         for value in values:
             with self.subTest(value=value):
