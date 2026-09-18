@@ -22,20 +22,20 @@ def add_student(database: list[dict[str, str]]) -> None:
         database: List containing students.
     """
     while True:
-        print("Enter the students name: ")
+        print("Enter the student's name: ")
         name = input()
         if not name.strip():  # stop adding students when no name was entered
             return
 
         try:
-            print("Enter the students grade: ")
+            print("Enter the student's grade: ")
             grade = int(input())
         except ValueError:
-            print("Error: Not a number!")
+            print("Error: grade must be number!")
             continue
 
         if not 1 <= grade <= 5:
-            print("Error: Grade is not between 1 and 5!")
+            print("Error: grade is not between 1 and 5!")
             continue
 
         if not database:
@@ -68,30 +68,30 @@ def search_student(
             only whitespace, or neither student_id nor name was specified.
     """
     if not database:
-        print("Database is empty!")
+        print("database is empty!")
         return
 
     if student_id is not None:
         if not isinstance(student_id, int):
-            raise TypeError("ID must be an integer!")
+            raise TypeError("student_id must be an integer!")
 
         if student_id < 1:
-            raise ValueError("ID must be >= 1!")
+            raise ValueError("student_id must be >= 1!")
 
-        print("Search for ID:")
+        print("Search for student_id:")
         for row in database:
             if int(row["id"]) == student_id:
                 print(
-                    f"ID: {row['id']} \nName: {row['name']} \nGrade: {row['grade']} \n"
+                    f"student_id: {row['id']} \nname: {row['name']} \ngrade: {row['grade']} \n"
                 )
                 return row
 
     elif name is not None:
         if not isinstance(name, str):
-            raise TypeError("Name must be a string!")
+            raise TypeError("name must be a string!")
 
         if not name.strip():
-            raise ValueError("Name can not be empty!")
+            raise ValueError("name can not be empty!")
 
         print("Search for name:")
         for row in database:
@@ -102,7 +102,7 @@ def search_student(
                 return row
 
     else:
-        raise ValueError("Either ID or Name must be provided!")
+        raise ValueError("Either student_id or name must be provided!")
 
     return
 
@@ -123,19 +123,19 @@ def change_grade(
             is not between 1 and 5.
     """
     if not database:
-        raise ValueError("Database is empty!")
+        raise ValueError("database is empty!")
 
     if not isinstance(student_id, int):
-        raise TypeError("ID must be an integer!")
+        raise TypeError("student_id must be an integer!")
 
     if not isinstance(new_grade, int):
-        raise TypeError("Grade must be an integer!")
+        raise TypeError("new_grade must be an integer!")
 
     if student_id < 1:
-        raise ValueError("ID must be >= 1!")
+        raise ValueError("student_id must be >= 1!")
 
     if not 1 <= new_grade <= 5:
-        raise ValueError("Grade must be between 1 and 5!")
+        raise ValueError("new_grade must be between 1 and 5!")
 
     for student in database:
         if int(student["id"]) == student_id:
