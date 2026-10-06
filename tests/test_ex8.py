@@ -1,6 +1,6 @@
 import unittest
 
-from aaip import ex8
+from applied_ai import ex8
 
 
 class TestListAverage(unittest.TestCase):

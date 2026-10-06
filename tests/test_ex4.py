@@ -1,6 +1,6 @@
 import unittest
 
-from aaip import ex4
+from applied_ai import ex4
 
 
 class TestComplexNumber(unittest.TestCase):

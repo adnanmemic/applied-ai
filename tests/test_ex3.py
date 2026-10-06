@@ -1,6 +1,6 @@
 import unittest
 
-from aaip import ex3
+from applied_ai import ex3
 
 
 class TestPerson(unittest.TestCase):

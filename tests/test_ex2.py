@@ -4,7 +4,7 @@ import unittest
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from aaip import ex2
+from applied_ai import ex2
 
 
 class TestStudentDatabase(unittest.TestCase):

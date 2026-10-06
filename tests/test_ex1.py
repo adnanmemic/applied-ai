@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from aaip import ex1
+from applied_ai import ex1
 
 
 class TestHelloPython(unittest.TestCase):

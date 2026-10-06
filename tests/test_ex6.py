@@ -3,7 +3,7 @@ import unittest
 from tempfile import NamedTemporaryFile
 from unittest.mock import patch
 
-from aaip import ex6
+from applied_ai import ex6
 
 
 class TestCommandLineTool(unittest.TestCase):

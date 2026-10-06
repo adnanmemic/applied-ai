@@ -3,7 +3,7 @@ import unittest
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from aaip import ex7
+from applied_ai import ex7
 
 
 class FileManagerTestCases(unittest.TestCase):
@@ -102,12 +102,12 @@ class FileManagerTestCases(unittest.TestCase):
     def test_check_dst_len_one_destination(self):
         self.assertFalse(ex7.check_dst_len(["dir"]))
 
-    @patch("aaip.ex7.copy_file")
+    @patch("applied_ai.ex7.copy_file")
     @patch("sys.argv", new_callable=list)
     def test_main_copy(self, mock_argv, mock_copy):
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "copy",
                 "--src",
                 self.test_file_path,
@@ -121,12 +121,12 @@ class FileManagerTestCases(unittest.TestCase):
         ex7.main()
         mock_copy.assert_called_once_with(self.test_file_path, self.full_copy_dir_paths)
 
-    @patch("aaip.ex7.move_file")
+    @patch("applied_ai.ex7.move_file")
     @patch("sys.argv", new_callable=list)
     def test_main_move(self, mock_argv, mock_move):
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "move",
                 "--src",
                 self.test_file_path,
@@ -138,7 +138,7 @@ class FileManagerTestCases(unittest.TestCase):
         ex7.main()
         mock_move.assert_called_once_with(self.test_file_path, self.full_move_dir_path)
 
-    @patch("aaip.ex7.rename_file")
+    @patch("applied_ai.ex7.rename_file")
     @patch("sys.argv", new_callable=list)
     def test_main_rename(self, mock_argv, mock_rename):
         new_file_name = "another_name.txt"
@@ -146,7 +146,7 @@ class FileManagerTestCases(unittest.TestCase):
 
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "rename",
                 "--src",
                 self.test_file_path,
@@ -158,12 +158,12 @@ class FileManagerTestCases(unittest.TestCase):
         ex7.main()
         mock_rename.assert_called_once_with(self.test_file_path, new_file_path)
 
-    @patch("aaip.ex7.check_dst_len")
+    @patch("applied_ai.ex7.check_dst_len")
     @patch("sys.argv", new_callable=list)
     def test_main_move_to_more_than_one_dst(self, mock_argv, mock_check_dst_len):
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "move",
                 "--src",
                 self.test_file_path,
@@ -180,12 +180,12 @@ class FileManagerTestCases(unittest.TestCase):
 
         mock_check_dst_len.assert_called_once_with(["dir1", "dir2"])
 
-    @patch("aaip.ex7.check_dst_len")
+    @patch("applied_ai.ex7.check_dst_len")
     @patch("sys.argv", new_callable=list)
     def test_main_rename_to_more_than_one_dst(self, mock_argv, mock_check_dst_len):
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "rename",
                 "--src",
                 self.test_file_path,
@@ -206,7 +206,7 @@ class FileManagerTestCases(unittest.TestCase):
     def test_main_wrong_positional_arg(self, mock_argv):
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "chmod",
                 "--src",
                 self.test_file_path,
@@ -221,12 +221,12 @@ class FileManagerTestCases(unittest.TestCase):
 
         self.assertEqual(e.exception.code, 1)
 
-    @patch("aaip.ex7.copy_file")
+    @patch("applied_ai.ex7.copy_file")
     @patch("sys.argv", new_callable=list)
     def test_main_value_error(self, mock_argv, mock_copy):
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "copy",
                 "--src",
                 "",
@@ -242,12 +242,12 @@ class FileManagerTestCases(unittest.TestCase):
 
         self.assertEqual(e.exception.code, 1)
 
-    @patch("aaip.ex7.copy_file")
+    @patch("applied_ai.ex7.copy_file")
     @patch("sys.argv", new_callable=list)
     def test_main_file_not_found_error(self, mock_argv, mock_copy):
         mock_argv.extend(
             [
-                "aaip/ex7.py",
+                "applied_ai/ex7.py",
                 "copy",
                 "--src",
                 "file_does_not_exist",

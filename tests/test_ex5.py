@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from aaip import ex5
+from applied_ai import ex5
 
 
 class TestDirectoryManagement(unittest.TestCase):
