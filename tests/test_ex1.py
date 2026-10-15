@@ -23,7 +23,7 @@ class TestHelloPython(unittest.TestCase):
 
     def test_hello_python_exercise_wrong_num_students_type(self):
         with self.assertRaises(TypeError):
-            ex1.hello_python_exercise("int", "John Doe")
+            ex1.hello_python_exercise("int", "John Doe")  # type: ignore
 
     def test_hello_python_exercise_wrong_num_students_value(self):
         with self.assertRaises(ValueError):
@@ -31,7 +31,7 @@ class TestHelloPython(unittest.TestCase):
 
     def test_hello_python_exercise_wrong_student_name_type(self):
         with self.assertRaises(TypeError):
-            ex1.hello_python_exercise(20, 5)
+            ex1.hello_python_exercise(20, 5)  # type: ignore
 
     def test_hello_python_exercise_empty_student_name(self):
         values = ["", "   "]

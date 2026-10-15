@@ -10,15 +10,15 @@ class TestPerson(unittest.TestCase):
 
     def test_invalid_name_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person(50, 26, "Anystreet 3")
+            ex3.Person(50, 26, "Anystreet 3")  # type: ignore
 
     def test_invalid_age_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person("John", "26", "Anystreet 3")
+            ex3.Person("John", "26", "Anystreet 3")  # type: ignore
 
     def test_invalid_address_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person("John", 26, 3)
+            ex3.Person("John", 26, 3)  # type: ignore
 
     def test_greet_student(self):
         student = ex3.Student("John", 30, "Somestreet 50", "Uni")
@@ -26,7 +26,7 @@ class TestPerson(unittest.TestCase):
 
     def test_invalid_university_type(self):
         with self.assertRaises(TypeError):
-            ex3.Student("John", 26, "Anystreet 3", 5)
+            ex3.Student("John", 26, "Anystreet 3", 5)  # type: ignore
 
     def test_from_string_attribute_values(self):
         person = ex3.Person.from_string("John, 26, Somestreet 50")
@@ -45,4 +45,4 @@ class TestPerson(unittest.TestCase):
 
     def test_from_string_invalid_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person.from_string(5)
+            ex3.Person.from_string(5)  # type: ignore

@@ -87,7 +87,7 @@ class TestStudentDatabase(unittest.TestCase):
 
     def test_search_student_wrong_student_id_type(self):
         with self.assertRaises(TypeError):
-            ex2.search_student(self.database, student_id="two")
+            ex2.search_student(self.database, student_id="two")  # type: ignore
 
     def test_search_student_wrong_student_id_number(self):
         with self.assertRaises(ValueError):
@@ -95,7 +95,7 @@ class TestStudentDatabase(unittest.TestCase):
 
     def test_search_student_wrong_name_type(self):
         with self.assertRaises(TypeError):
-            ex2.search_student(self.database, name=5)
+            ex2.search_student(self.database, name=5)  # type: ignore
 
     def test_search_student_empty_name(self):
         values = ["", "   "]
@@ -124,11 +124,11 @@ class TestStudentDatabase(unittest.TestCase):
 
     def test_change_grade_wrong_student_id_type(self):
         with self.assertRaises(TypeError):
-            ex2.change_grade(self.database, "two", 3)
+            ex2.change_grade(self.database, "two", 3)  # type: ignore
 
     def test_change_grade_wrong_grade_type(self):
         with self.assertRaises(TypeError):
-            ex2.change_grade(self.database, 2, "three")
+            ex2.change_grade(self.database, 2, "three")  # type: ignore
 
     def test_change_grade_wrong_student_id_range(self):
         with self.assertRaises(ValueError):
