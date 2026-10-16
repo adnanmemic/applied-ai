@@ -3,6 +3,19 @@ from datetime import UTC, datetime
 
 
 def create_project_structure(base_path: str, project_name: str) -> None:
+    """Create a project with src and docs directories and starter files.
+
+    Print a message and return if the project path already exists.
+
+    Args:
+        base_path: Path to the directory containing the new project.
+        project_name: Name of the project directory.
+
+    Raises:
+        TypeError: If base_path or project_name is not a string.
+        ValueError: If base_path or project_name is empty or contains only
+            whitespace.
+    """
     if not isinstance(base_path, str):
         raise TypeError("Base path must be a string!")
 
@@ -39,6 +52,15 @@ def create_project_structure(base_path: str, project_name: str) -> None:
 
 
 def traverse_directory(path: str) -> None:
+    """Print the directories and files in a directory tree.
+
+    Args:
+        path: Path to the directory to traverse.
+
+    Raises:
+        TypeError: If path is not a string.
+        ValueError: If path is empty or contains only whitespace.
+    """
     if not isinstance(path, str):
         raise TypeError("Path must be a string!")
 
@@ -57,6 +79,19 @@ def traverse_directory(path: str) -> None:
 
 
 def file_metadata(file_path: str) -> None:
+    """Print file metadata and change the file's permissions.
+
+    Print the file size and modification and change times in UTC. Set the
+    permissions to read-only (0o444), then to writable (0o644).
+
+    Args:
+        file_path: Path to the file.
+
+    Raises:
+        TypeError: If file_path is not a string.
+        ValueError: If file_path is empty or contains only whitespace.
+        FileNotFoundError: If the file does not exist.
+    """
     if not isinstance(file_path, str):
         raise TypeError("File path must be a string!")
 
@@ -86,6 +121,19 @@ def file_metadata(file_path: str) -> None:
 
 
 def find_files_by_extension(path: str, extension: str) -> list[str]:
+    """Find files whose names contain the specified extension text.
+
+    Args:
+        path: Path to the directory to search recursively.
+        extension: Text to search for in file names, such as ".txt".
+
+    Returns:
+        A list of matching file paths, or an empty list if no files match.
+
+    Raises:
+        TypeError: If path or extension is not a string.
+        ValueError: If path or extension is empty or contains only whitespace.
+    """
     if not isinstance(path, str):
         raise TypeError("Path must be a string")
 
@@ -108,6 +156,15 @@ def find_files_by_extension(path: str, extension: str) -> list[str]:
 
 
 def delete_files_and_directories(path: str) -> None:
+    """Delete the files and directories in a directory tree, including its root.
+
+    Args:
+        path: Path to the directory to delete.
+
+    Raises:
+        TypeError: If path is not a string.
+        ValueError: If path is empty or contains only whitespace.
+    """
     if not isinstance(path, str):
         raise TypeError("Path must be a string")
 
