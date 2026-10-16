@@ -8,7 +8,7 @@ Solutions to assignments and a project from the Applied AI course, covering Pyth
 
 Only testing:
 ```bash
-python3 -m unittest
+python3 -m unittest discover -s tests
 ```
 
 Testing with coverage report:
