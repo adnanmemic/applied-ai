@@ -5,6 +5,17 @@ import sys
 
 
 def copy_file(src: str, dst: list[str]) -> None:
+    """Copy a file to the specified destinations.
+
+    Args:
+        src: Path to the source file.
+        dst: List containing destination paths.
+
+    Raises:
+        ValueError: If src or a destination path is empty.
+        FileNotFoundError: If the source file or a destination directory
+            does not exist.
+    """
     if not src:
         raise ValueError("Error: Source cannot be empty.")
 
@@ -16,6 +27,17 @@ def copy_file(src: str, dst: list[str]) -> None:
 
 
 def move_file(src: str, dst: str) -> None:
+    """Move a file to the specified destination.
+
+    Args:
+        src: Path to the source file.
+        dst: Path to the destination.
+
+    Raises:
+        ValueError: If src or dst is empty.
+        FileNotFoundError: If the source file or destination directory
+            does not exist.
+    """
     if not src:
         raise ValueError("Error: Source cannot be empty.")
 
@@ -26,6 +48,17 @@ def move_file(src: str, dst: str) -> None:
 
 
 def rename_file(src: str, dst: str) -> None:
+    """Rename a file to the specified destination path.
+
+    Args:
+        src: Path to the source file.
+        dst: Path containing the new file name.
+
+    Raises:
+        ValueError: If src or dst is empty.
+        FileNotFoundError: If the source file or destination directory
+            does not exist.
+    """
     if not src:
         raise ValueError("Error: Source cannot be empty.")
 
@@ -36,6 +69,14 @@ def rename_file(src: str, dst: str) -> None:
 
 
 def check_dst_len(dst: list[str]) -> bool:
+    """Check whether the destination list has an invalid length.
+
+    Args:
+        dst: List containing destination paths.
+
+    Returns:
+        True if the list does not contain exactly one destination, otherwise False.
+    """
     if len(dst) != 1:  # file can only be moved to one location
         print(
             "Error: argument --dst: expected exactly one argument",
@@ -78,7 +119,7 @@ def main() -> None:
 
         else:
             print(
-                f"Error: mode must be one of: copy, mode, rename but was given '{args.mode}'",
+                f"Error: mode must be one of: copy, move, rename but was given '{args.mode}'",
                 file=sys.stderr,
             )
             sys.exit(1)
