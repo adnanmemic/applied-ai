@@ -2,6 +2,17 @@ import sys
 
 
 def count_words(path: str) -> int:
+    """Count the words in the specified file.
+
+    Args:
+        path: Path to the text file.
+
+    Returns:
+        The number of whitespace-separated words in the file.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+    """
     word_count = 0
     with open(path, "r", encoding="utf-8") as file:
         for line in file:
@@ -11,6 +22,17 @@ def count_words(path: str) -> int:
 
 
 def count_lines(path: str) -> int:
+    """Count the lines in the specified file.
+
+    Args:
+        path: Path to the text file.
+
+    Returns:
+        The number of lines in the file.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+    """
     line_count = 0
     with open(path, "r", encoding="utf-8") as file:
         for _ in file:
@@ -20,6 +42,19 @@ def count_lines(path: str) -> int:
 
 
 def search_word(path: str, word: str) -> list[str]:
+    """Find lines containing the specified text using a case-sensitive search.
+
+    Args:
+        path: Path to the text file.
+        word: Text to search for, including matches within words.
+
+    Returns:
+        A list of matching lines without trailing newline characters.
+
+    Raises:
+        ValueError: If word is empty or contains only whitespace.
+        FileNotFoundError: If the file does not exist.
+    """
     if not word.strip():
         raise ValueError
 
