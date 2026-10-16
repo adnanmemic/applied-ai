@@ -5,44 +5,44 @@ from datetime import UTC, datetime
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from applied_ai import ex5
+from applied_ai import ex05
 
 
 class TestDirectoryManagement(unittest.TestCase):
     def test_create_project_wrong_base_path_type(self):
         with self.assertRaises(TypeError):
-            ex5.create_project_structure(5, "new_project")
+            ex05.create_project_structure(5, "new_project")
 
     def test_create_project_wrong_project_name_type(self):
         with self.assertRaises(TypeError):
-            ex5.create_project_structure("project_path", 5)
+            ex05.create_project_structure("project_path", 5)
 
     def test_create_project_empty_base_path(self):
         with self.assertRaises(ValueError):
-            ex5.create_project_structure("", "new_project")
+            ex05.create_project_structure("", "new_project")
         with self.assertRaises(ValueError):
-            ex5.create_project_structure("  ", "new_project")
+            ex05.create_project_structure("  ", "new_project")
 
     def test_create_project_empty_project_name(self):
         with self.assertRaises(ValueError):
-            ex5.create_project_structure("project_path", "")
+            ex05.create_project_structure("project_path", "")
         with self.assertRaises(ValueError):
-            ex5.create_project_structure("project_path", "  ")
+            ex05.create_project_structure("project_path", "  ")
 
     @patch("builtins.print")
     def test_project_path_already_exists(self, mock_print):
         with TemporaryDirectory() as tmpdir:
             project_name = "new_project"
 
-            ex5.create_project_structure(tmpdir, project_name)
-            ex5.create_project_structure(tmpdir, project_name)
+            ex05.create_project_structure(tmpdir, project_name)
+            ex05.create_project_structure(tmpdir, project_name)
 
             mock_print.assert_called_once_with("Project already exists!")
 
     def test_create_project_structure(self):
         with TemporaryDirectory() as tmpdir:
             project_name = "new_project"
-            ex5.create_project_structure(tmpdir, project_name)
+            ex05.create_project_structure(tmpdir, project_name)
 
             # Test existence of src directory
             self.assertTrue(os.path.isdir(os.path.join(tmpdir, project_name, "src")))
@@ -63,7 +63,7 @@ class TestDirectoryManagement(unittest.TestCase):
     def test_readme_content(self):
         with TemporaryDirectory() as tmpdir:
             project_name = "new_project"
-            ex5.create_project_structure(tmpdir, project_name)
+            ex05.create_project_structure(tmpdir, project_name)
             readme_path = os.path.join(tmpdir, project_name, "README.md")
 
             with open(readme_path, "r", encoding="utf-8") as file:
@@ -74,7 +74,7 @@ class TestDirectoryManagement(unittest.TestCase):
     def test_main_content(self):
         with TemporaryDirectory() as tmpdir:
             project_name = "new_project"
-            ex5.create_project_structure(tmpdir, project_name)
+            ex05.create_project_structure(tmpdir, project_name)
             main_path = os.path.join(tmpdir, project_name, "src", "main.py")
 
             with open(main_path, "r", encoding="utf-8") as file:
@@ -91,7 +91,7 @@ class TestDirectoryManagement(unittest.TestCase):
             with open(file1, "w"):
                 pass
 
-            ex5.traverse_directory(tmpdir)
+            ex05.traverse_directory(tmpdir)
 
             mock_print.assert_any_call(f"Current directory: {tmpdir}")
             mock_print.assert_any_call("Directories: src")
@@ -103,23 +103,23 @@ class TestDirectoryManagement(unittest.TestCase):
 
     def test_traverse_directory_wrong_input_type(self):
         with self.assertRaises(TypeError):
-            ex5.traverse_directory(5)
+            ex05.traverse_directory(5)
 
     def test_traverse_directory_empty_input_string(self):
         with self.assertRaises(ValueError):
-            ex5.traverse_directory("")
+            ex05.traverse_directory("")
         with self.assertRaises(ValueError):
-            ex5.traverse_directory("  ")
+            ex05.traverse_directory("  ")
 
     def test_file_metadata_wrong_type(self):
         with self.assertRaises(TypeError):
-            ex5.file_metadata(5)
+            ex05.file_metadata(5)
 
     def test_file_metadata_empty_path(self):
         with self.assertRaises(ValueError):
-            ex5.file_metadata("")
+            ex05.file_metadata("")
         with self.assertRaises(ValueError):
-            ex5.file_metadata("   ")
+            ex05.file_metadata("   ")
 
     @patch("builtins.print")
     def test_file_metadata(self, mock_print):
@@ -138,7 +138,7 @@ class TestDirectoryManagement(unittest.TestCase):
 
             # capture metadata before calling the function because chmod() can
             # change ctime (on linux)
-            ex5.file_metadata(file_path)
+            ex05.file_metadata(file_path)
 
             mock_print.assert_any_call(f"Filesize: {metadata.st_size} Byte")
             mock_print.assert_any_call(f"Last modified: {mtime}")
@@ -166,28 +166,28 @@ class TestDirectoryManagement(unittest.TestCase):
 
             expected_list = [file1, file2]
             self.assertCountEqual(
-                ex5.find_files_by_extension(tmpdir, ".txt"), expected_list
+                ex05.find_files_by_extension(tmpdir, ".txt"), expected_list
             )
 
     def test_find_files_by_extension_wrong_path_type(self):
         with self.assertRaises(TypeError):
-            ex5.find_files_by_extension(5, ".txt")
+            ex05.find_files_by_extension(5, ".txt")
 
     def test_find_files_by_extension_wrong_extension_type(self):
         with self.assertRaises(TypeError):
-            ex5.find_files_by_extension(".", 5)
+            ex05.find_files_by_extension(".", 5)
 
     def test_find_files_by_extension_empty_path(self):
         with self.assertRaises(ValueError):
-            ex5.find_files_by_extension("", ".txt")
+            ex05.find_files_by_extension("", ".txt")
         with self.assertRaises(ValueError):
-            ex5.find_files_by_extension("   ", ".txt")
+            ex05.find_files_by_extension("   ", ".txt")
 
     def test_find_files_by_extension_empty_extension(self):
         with self.assertRaises(ValueError):
-            ex5.find_files_by_extension(".", "")
+            ex05.find_files_by_extension(".", "")
         with self.assertRaises(ValueError):
-            ex5.find_files_by_extension(".", "   ")
+            ex05.find_files_by_extension(".", "   ")
 
     def test_delete_files_and_directories(self):
         with TemporaryDirectory() as tmpdir:
@@ -204,15 +204,15 @@ class TestDirectoryManagement(unittest.TestCase):
             with open(file2, "w"):
                 pass
 
-            ex5.delete_files_and_directories(tmpdir)
+            ex05.delete_files_and_directories(tmpdir)
             self.assertFalse(os.path.exists(tmpdir))
 
     def test_delete_files_and_directories_wrong_path_type(self):
         with self.assertRaises(TypeError):
-            ex5.delete_files_and_directories(5)
+            ex05.delete_files_and_directories(5)
 
     def test_delete_files_and_directories_empty_path(self):
         with self.assertRaises(ValueError):
-            ex5.delete_files_and_directories("")
+            ex05.delete_files_and_directories("")
         with self.assertRaises(ValueError):
-            ex5.delete_files_and_directories("   ")
+            ex05.delete_files_and_directories("   ")

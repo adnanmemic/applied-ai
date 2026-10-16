@@ -1,13 +1,13 @@
 import unittest
 from unittest.mock import patch
 
-from applied_ai import ex1
+from applied_ai import ex01
 
 
 class TestHelloPython(unittest.TestCase):
     @patch("builtins.print")
     def test_hello_python_exercise(self, mock_print):
-        ex1.hello_python_exercise(20, "John Doe")
+        ex01.hello_python_exercise(20, "John Doe")
 
         mock_print.assert_called_once_with(
             "This course has 20 and one of those is John Doe."
@@ -15,7 +15,7 @@ class TestHelloPython(unittest.TestCase):
 
     @patch("builtins.print")
     def test_hello_python_exercise_default(self, mock_print):
-        ex1.hello_python_exercise(20)
+        ex01.hello_python_exercise(20)
 
         mock_print.assert_called_once_with(
             "This course has 20 and one of those is Adnan Memic."
@@ -23,18 +23,18 @@ class TestHelloPython(unittest.TestCase):
 
     def test_hello_python_exercise_wrong_num_students_type(self):
         with self.assertRaises(TypeError):
-            ex1.hello_python_exercise("int", "John Doe")  # type: ignore
+            ex01.hello_python_exercise("int", "John Doe")  # type: ignore
 
     def test_hello_python_exercise_wrong_num_students_value(self):
         with self.assertRaises(ValueError):
-            ex1.hello_python_exercise(-1, "John Doe")
+            ex01.hello_python_exercise(-1, "John Doe")
 
     def test_hello_python_exercise_wrong_student_name_type(self):
         with self.assertRaises(TypeError):
-            ex1.hello_python_exercise(20, 5)  # type: ignore
+            ex01.hello_python_exercise(20, 5)  # type: ignore
 
     def test_hello_python_exercise_empty_student_name(self):
         values = ["", "   "]
         for value in values:
             with self.subTest(value=value), self.assertRaises(ValueError):
-                ex1.hello_python_exercise(20, value)
+                ex01.hello_python_exercise(20, value)

@@ -1,35 +1,35 @@
 import unittest
 
-from applied_ai import ex3
+from applied_ai import ex03
 
 
 class TestPerson(unittest.TestCase):
     def test_greet_person(self):
-        person = ex3.Person("John", 30, "Somestreet 50")
+        person = ex03.Person("John", 30, "Somestreet 50")
         self.assertEqual(person.greet(), "Greetings to John")
 
     def test_invalid_name_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person(50, 26, "Anystreet 3")  # type: ignore
+            ex03.Person(50, 26, "Anystreet 3")  # type: ignore
 
     def test_invalid_age_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person("John", "26", "Anystreet 3")  # type: ignore
+            ex03.Person("John", "26", "Anystreet 3")  # type: ignore
 
     def test_invalid_address_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person("John", 26, 3)  # type: ignore
+            ex03.Person("John", 26, 3)  # type: ignore
 
     def test_greet_student(self):
-        student = ex3.Student("John", 30, "Somestreet 50", "Uni")
+        student = ex03.Student("John", 30, "Somestreet 50", "Uni")
         self.assertEqual(student.greet(), "Greetings to John and his university: Uni")
 
     def test_invalid_university_type(self):
         with self.assertRaises(TypeError):
-            ex3.Student("John", 26, "Anystreet 3", 5)  # type: ignore
+            ex03.Student("John", 26, "Anystreet 3", 5)  # type: ignore
 
     def test_from_string_attribute_values(self):
-        person = ex3.Person.from_string("John, 26, Somestreet 50")
+        person = ex03.Person.from_string("John, 26, Somestreet 50")
         values = [
             (person.name, "John"),
             (person.age, 26),
@@ -40,9 +40,9 @@ class TestPerson(unittest.TestCase):
                 self.assertEqual(*value)
 
     def test_from_string_returns_person(self):
-        person = ex3.Person.from_string("John, 26, Somestreet 50")
-        self.assertIsInstance(person, ex3.Person)
+        person = ex03.Person.from_string("John, 26, Somestreet 50")
+        self.assertIsInstance(person, ex03.Person)
 
     def test_from_string_invalid_type(self):
         with self.assertRaises(TypeError):
-            ex3.Person.from_string(5)  # type: ignore
+            ex03.Person.from_string(5)  # type: ignore
