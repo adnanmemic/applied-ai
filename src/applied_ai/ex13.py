@@ -18,7 +18,7 @@ internet.columns = internet.columns.str.lower()
 world_internet = world.merge(internet, left_on="adm0_a3", right_on="country code")
 
 # filtering just the countries located in asia
-asia = world_internet[world_internet["continent"] == "europe"]
+asia = world_internet[world_internet["continent"] == "asia"]
 
 asia.plot(
     column="2015",
