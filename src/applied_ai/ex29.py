@@ -1,89 +1,145 @@
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.datasets import make_circles, make_classification, make_moons
-from sklearn.ensemble import (
-    AdaBoostClassifier,
-    BaggingClassifier,
-    RandomForestClassifier,
+import torch
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets
+from torchvision.transforms import ToTensor
+
+# Image Classification with Fashion-MNIST
+# Based on the official PyTorch Quickstart Tutorial:
+# https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
+
+# Load the dataset
+train_data = datasets.FashionMNIST(
+    root="data", train=True, download=True, transform=ToTensor()
 )
-from sklearn.tree import DecisionTreeClassifier
 
-# Generate a linearly separable dataset
-X, y = make_classification(
-    n_features=2, n_redundant=0, n_informative=2, random_state=1, n_clusters_per_class=1
+test_data = datasets.FashionMNIST(
+    root="data", train=False, download=True, transform=ToTensor()
 )
 
-# Add random noise to the dataset
-rng = np.random.RandomState(2)
-X += 2 * rng.uniform(size=X.shape)
+batch_size = 64
 
-linear_separable = (X, y)
+train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 
-# Create the three datasets
-datasets = [
-    make_moons(noise=0.3, random_state=0),
-    make_circles(noise=0.2, factor=0.5, random_state=1),
-    linear_separable,
-]
+test_dataloader = DataLoader(test_data, batch_size=batch_size)
 
-dataset_names = ["Moons", "Circles", "Linearly Separable"]
 
-# Create the classifiers
-classifiers = [
-    DecisionTreeClassifier(random_state=0),
-    RandomForestClassifier(n_estimators=100, random_state=0),
-    BaggingClassifier(n_estimators=100, random_state=0),
-    AdaBoostClassifier(n_estimators=100, random_state=0),
-]
+# Define the neural network
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
 
-classifier_names = ["Decision Tree", "Random Forest", "Bagging", "AdaBoost"]
+        self.flatten = nn.Flatten()
 
-# Create a grid of plots
-fig, axes = plt.subplots(3, 4, figsize=(18, 12))
-
-# Train and visualize each classifier on each dataset
-for row, ((X, y), dataset_name) in enumerate(zip(datasets, dataset_names)):
-    # Create a mesh grid covering the feature space
-    x_min, x_max = X[:, 0].min() - 0.5, X[:, 0].max() + 0.5
-    y_min, y_max = X[:, 1].min() - 0.5, X[:, 1].max() + 0.5
-
-    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), np.linspace(y_min, y_max, 200))
-
-    grid = np.c_[xx.ravel(), yy.ravel()]
-
-    for col, (classifier, classifier_name) in enumerate(
-        zip(classifiers, classifier_names)
-    ):
-        ax = axes[row, col]
-
-        # Train the classifier
-        classifier.fit(X, y)
-
-        # Predict class probabilities for the mesh grid
-        probabilities = classifier.predict_proba(grid)[:, 1]
-        probabilities = probabilities.reshape(xx.shape)
-
-        # Visualize the decision regions
-        ax.contourf(
-            xx,
-            yy,
-            probabilities,
-            levels=np.linspace(0, 1, 11),
-            cmap="RdBu",
-            alpha=0.7,
-            vmin=0,
-            vmax=1,
+        self.linear_relu_stack = nn.Sequential(
+            nn.Linear(28 * 28, 512),
+            nn.ReLU(),
+            nn.Linear(512, 512),
+            nn.ReLU(),
+            nn.Linear(512, 10),
         )
 
-        # Draw the decision boundary at probability 0.5
-        ax.contour(xx, yy, probabilities, levels=[0.5], colors="black", linewidths=1)
+    def forward(self, x):
+        x = self.flatten(x)
+        logits = self.linear_relu_stack(x)
+        return logits
 
-        # Plot the original data points
-        ax.scatter(X[:, 0], X[:, 1], c=y, cmap="RdBu", edgecolors="black", s=25)
 
-        ax.set_title(f"{dataset_name} - {classifier_name}")
-        ax.set_xlabel("Feature 1")
-        ax.set_ylabel("Feature 2")
+# Select device
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using device: {device}")
 
-plt.tight_layout()
-plt.show()
+model = NeuralNetwork().to(device)
+
+# Loss function and optimizer
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
+
+
+# Training function
+def train(dataloader, model, loss_fn, optimizer):
+    model.train()
+    size = len(dataloader.dataset)
+
+    for batch, (X, y) in enumerate(dataloader):
+        X = X.to(device)
+        y = y.to(device)
+
+        # Forward pass
+        pred = model(X)
+        loss = loss_fn(pred, y)
+
+        # Backpropagation
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        if batch % 100 == 0:
+            current = batch * len(X)
+            print(f"Loss: {loss.item():.4f} [{current}/{size}]")
+
+
+# Evaluation function
+def test(dataloader, model, loss_fn):
+    model.eval()
+
+    size = len(dataloader.dataset)
+    num_batches = len(dataloader)
+
+    test_loss = 0
+    correct = 0
+
+    with torch.no_grad():
+        for X, y in dataloader:
+            X = X.to(device)
+            y = y.to(device)
+
+            pred = model(X)
+
+            test_loss += loss_fn(pred, y).item()
+            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+
+    test_loss /= num_batches
+    accuracy = correct / size
+
+    print(f"Test Accuracy: {accuracy * 100:.2f}% | Average Loss: {test_loss:.4f}")
+
+
+# Train and evaluate
+epochs = 5
+
+for epoch in range(epochs):
+    print(f"\nEpoch {epoch + 1}/{epochs}")
+    print("-------------------------------")
+
+    train(train_dataloader, model, loss_fn, optimizer)
+    test(test_dataloader, model, loss_fn)
+
+print("\nTraining finished!")
+
+
+# Make a prediction
+classes = [
+    "T-shirt/top",
+    "Trouser",
+    "Pullover",
+    "Dress",
+    "Coat",
+    "Sandal",
+    "Shirt",
+    "Sneaker",
+    "Bag",
+    "Ankle boot",
+]
+
+model.eval()
+
+with torch.no_grad():
+    X, y = test_data[0]
+    X = X.to(device)
+
+    pred = model(X.unsqueeze(0))
+    predicted_class = pred.argmax(1).item()
+
+    print(f"Predicted: {classes[predicted_class]}")
+    print(f"Actual: {classes[y]}")

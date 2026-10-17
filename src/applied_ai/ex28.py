@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import make_circles, make_classification, make_moons
+from sklearn.ensemble import (
+    AdaBoostClassifier,
+    BaggingClassifier,
+    RandomForestClassifier,
+)
+from sklearn.tree import DecisionTreeClassifier
 
 # Generate a linearly separable dataset
 X, y = make_classification(
@@ -20,21 +26,64 @@ datasets = [
     linear_separable,
 ]
 
-names = ["Moons", "Circles", "Linearly Separable"]
+dataset_names = ["Moons", "Circles", "Linearly Separable"]
 
-# Create a figure with three plots
-plt.figure(figsize=(12, 4))
+# Create the classifiers
+classifiers = [
+    DecisionTreeClassifier(random_state=0),
+    RandomForestClassifier(n_estimators=100, random_state=0),
+    BaggingClassifier(n_estimators=100, random_state=0),
+    AdaBoostClassifier(n_estimators=100, random_state=0),
+]
 
-# Visualize each dataset in two dimensions
-for i, ((X, y), name) in enumerate(zip(datasets, names)):
-    plt.subplot(1, 3, i + 1)
+classifier_names = ["Decision Tree", "Random Forest", "Bagging", "AdaBoost"]
 
-    # Plot the two features and color points by class
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap="coolwarm", edgecolors="black")
+# Create a grid of plots
+fig, axes = plt.subplots(3, 4, figsize=(18, 12))
 
-    plt.title(name)
-    plt.xlabel("Feature 1")
-    plt.ylabel("Feature 2")
+# Train and visualize each classifier on each dataset
+for row, ((X, y), dataset_name) in enumerate(zip(datasets, dataset_names)):
+    # Create a mesh grid covering the feature space
+    x_min, x_max = X[:, 0].min() - 0.5, X[:, 0].max() + 0.5
+    y_min, y_max = X[:, 1].min() - 0.5, X[:, 1].max() + 0.5
+
+    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), np.linspace(y_min, y_max, 200))
+
+    grid = np.c_[xx.ravel(), yy.ravel()]
+
+    for col, (classifier, classifier_name) in enumerate(
+        zip(classifiers, classifier_names)
+    ):
+        ax = axes[row, col]
+
+        # Train the classifier
+        classifier.fit(X, y)
+
+        # Predict class probabilities for the mesh grid
+        probabilities = classifier.predict_proba(grid)[:, 1]
+        probabilities = probabilities.reshape(xx.shape)
+
+        # Visualize the decision regions
+        ax.contourf(
+            xx,
+            yy,
+            probabilities,
+            levels=np.linspace(0, 1, 11),
+            cmap="RdBu",
+            alpha=0.7,
+            vmin=0,
+            vmax=1,
+        )
+
+        # Draw the decision boundary at probability 0.5
+        ax.contour(xx, yy, probabilities, levels=[0.5], colors="black", linewidths=1)
+
+        # Plot the original data points
+        ax.scatter(X[:, 0], X[:, 1], c=y, cmap="RdBu", edgecolors="black", s=25)
+
+        ax.set_title(f"{dataset_name} - {classifier_name}")
+        ax.set_xlabel("Feature 1")
+        ax.set_ylabel("Feature 2")
 
 plt.tight_layout()
 plt.show()
