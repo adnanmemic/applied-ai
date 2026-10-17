@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.tree import DecisionTreeRegressor, plot_tree
 
 # Generate the training data
@@ -10,9 +10,7 @@ rng = np.random.RandomState(1)
 X = np.sort(5 * rng.rand(num_points, 1), axis=0)
 y = np.sin(X).ravel()
 
-y[::interval_dist] += 3 * (
-    0.5 - rng.rand(int(np.ceil(num_points / interval_dist)))
-)
+y[::interval_dist] += 3 * (0.5 - rng.rand(int(np.ceil(num_points / interval_dist))))
 
 # Generate test data across the training range
 X_test = np.linspace(X.min(), X.max(), 500).reshape(-1, 1)
@@ -26,11 +24,7 @@ tree_depth_2.fit(X, y)
 tree_depth_5.fit(X, y)
 
 # Create a pruned regression tree
-tree_pruned = DecisionTreeRegressor(
-    max_depth=5,
-    ccp_alpha=0.05,
-    random_state=0
-)
+tree_pruned = DecisionTreeRegressor(max_depth=5, ccp_alpha=0.05, random_state=0)
 tree_pruned.fit(X, y)
 
 # Predict the test values
@@ -44,7 +38,7 @@ fig, axes = plt.subplots(1, 3, figsize=(16, 5))
 models = [
     ("Max Depth = 2", y_depth_2),
     ("Max Depth = 5", y_depth_5),
-    ("Pruned Tree (ccp_alpha = 0.05)", y_pruned)
+    ("Pruned Tree (ccp_alpha = 0.05)", y_pruned),
 ]
 
 for ax, (title, prediction) in zip(axes, models):
@@ -64,23 +58,15 @@ print("Tree Comparison:")
 for name, model in [
     ("Depth 2", tree_depth_2),
     ("Depth 5", tree_depth_5),
-    ("Pruned", tree_pruned)
+    ("Pruned", tree_pruned),
 ]:
-    print(
-        f"{name}: "
-        f"Depth = {model.get_depth()}, "
-        f"Leaves = {model.get_n_leaves()}"
-    )
+    print(f"{name}: Depth = {model.get_depth()}, Leaves = {model.get_n_leaves()}")
 
 # Compare different pruning strengths
 print("\nPruning Comparison:")
 
 for alpha in [0.0, 0.01, 0.05, 0.1, 0.2]:
-    model = DecisionTreeRegressor(
-        max_depth=5,
-        ccp_alpha=alpha,
-        random_state=0
-    )
+    model = DecisionTreeRegressor(max_depth=5, ccp_alpha=alpha, random_state=0)
     model.fit(X, y)
 
     print(
@@ -97,16 +83,10 @@ for ax, (title, model) in zip(
     [
         ("Regression Tree - Depth 2", tree_depth_2),
         ("Regression Tree - Depth 5", tree_depth_5),
-        ("Pruned Regression Tree", tree_pruned)
-    ]
+        ("Pruned Regression Tree", tree_pruned),
+    ],
 ):
-    plot_tree(
-        model,
-        ax=ax,
-        filled=True,
-        rounded=True,
-        fontsize=7
-    )
+    plot_tree(model, ax=ax, filled=True, rounded=True, fontsize=7)
     ax.set_title(title)
 
 plt.tight_layout()

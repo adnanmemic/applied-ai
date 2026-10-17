@@ -1,6 +1,7 @@
 from pathlib import Path
-import pandas as pd
+
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 
 sns.set_theme(style="whitegrid", font_scale=1.1)
@@ -12,11 +13,11 @@ ATHLETE_EVENTS_FILE = "./data/athlete-events.csv"
 NOC_REGIONS_FILE = "./data/noc-regions.csv"
 OUTPUT_DIR = "plots"
 
-FOCUS_NOC = "USA"        
-FOCUS_SPORT = None      # example "Swimming"
-FOCUS_SEASON = None     # example "Summer"
+FOCUS_NOC = "USA"
+FOCUS_SPORT = None  # example "Swimming"
+FOCUS_SEASON = None  # example "Summer"
 
-TOP_K_SPORTS = 11        # number of sports for boxplot
+TOP_K_SPORTS = 11  # number of sports for boxplot
 
 NO_GOLD_COLOR = "orange"
 GOLD_COLOR = "steelblue"
@@ -38,11 +39,15 @@ def filter_base(df):
     sub = df.copy()
 
     # valid age
-    sub["Age"] = pd.to_numeric(sub["Age"], errors="coerce") # converts non numeric values into numeric, if not possible then NAN
+    sub["Age"] = pd.to_numeric(
+        sub["Age"], errors="coerce"
+    )  # converts non numeric values into numeric, if not possible then NAN
     sub = sub[sub["Age"].notna()].copy()
-    sub = sub[(sub["Age"] >= 10) & (sub["Age"] <= 80)].copy() # Filter Age between 10 and 80
+    sub = sub[
+        (sub["Age"] >= 10) & (sub["Age"] <= 80)
+    ].copy()  # Filter Age between 10 and 80
 
-    # Filter mode 
+    # Filter mode
     if FOCUS_NOC:
         sub = sub[sub["NOC"] == FOCUS_NOC].copy()
     if FOCUS_SPORT:
@@ -56,13 +61,13 @@ def filter_base(df):
 # Add Column "Gold" (Values: true/false)
 def add_is_gold_flag(df_base):
     out = df_base.copy()
-    out["IsGold"] = (out["Medal"] == "Gold") 
+    out["IsGold"] = out["Medal"] == "Gold"
     return out
 
 
 # Filter people that have gold medals
 def get_gold_only(df_base):
-    return df_base[df_base["Medal"] == "Gold"].copy() 
+    return df_base[df_base["Medal"] == "Gold"].copy()
 
 
 # Make title prefix based on filter mode
@@ -87,7 +92,7 @@ def plot_A_gold_vs_nongold_hist(df_labeled, out_dir, title_prefix):
         stat="count",
         label="No Gold",
         color=NO_GOLD_COLOR,
-        alpha=1
+        alpha=1,
     )
 
     sns.histplot(
@@ -96,7 +101,7 @@ def plot_A_gold_vs_nongold_hist(df_labeled, out_dir, title_prefix):
         stat="count",
         label="Gold",
         color=GOLD_COLOR,
-        alpha=1
+        alpha=1,
     )
 
     plt.title(f"{title_prefix}: Age distribution (Gold vs No Gold)")
@@ -111,18 +116,18 @@ def plot_A_gold_vs_nongold_hist(df_labeled, out_dir, title_prefix):
 # Plot B — Line plot: Mean age over time (Gold vs No-Gold)
 def plot_B_time_series_gold_vs_nongold(df_labeled, out_dir, title_prefix):
     gold = df_labeled[df_labeled["IsGold"]].groupby("Year")["Age"].mean().reset_index()
-    nongold = df_labeled[~df_labeled["IsGold"]].groupby("Year")["Age"].mean().reset_index()
+    nongold = (
+        df_labeled[~df_labeled["IsGold"]].groupby("Year")["Age"].mean().reset_index()
+    )
 
     gold["Group"] = "Gold"
     nongold["Group"] = "No Gold"
 
     data = pd.concat([gold, nongold])
 
-    # legend order to "No Goal" first 
+    # legend order to "No Goal" first
     data["Group"] = pd.Categorical(
-        data["Group"],
-        categories=["No Gold", "Gold"],
-        ordered=True
+        data["Group"], categories=["No Gold", "Gold"], ordered=True
     )
 
     plt.figure(figsize=(9, 5))
@@ -133,10 +138,7 @@ def plot_B_time_series_gold_vs_nongold(df_labeled, out_dir, title_prefix):
         y="Age",
         hue="Group",
         linewidth=2.5,
-        palette={
-            "Gold": GOLD_COLOR,
-            "No Gold": NO_GOLD_COLOR
-        }
+        palette={"Gold": GOLD_COLOR, "No Gold": NO_GOLD_COLOR},
     )
 
     plt.title(f"{title_prefix}: Mean age over time (Gold vs No Gold)")
@@ -160,7 +162,7 @@ def plot_C_box_by_sport_gold(df_gold, out_dir, title_prefix, top_k):
         y="Age",
         order=top_sports,
         showfliers=False,
-        color=GOLD_COLOR
+        color=GOLD_COLOR,
     )
 
     plt.title(f"{title_prefix}: Gold medalists age by sport (Top {top_k})")
@@ -177,7 +179,7 @@ def main():
     out_dir = Path(OUTPUT_DIR)
     out_dir.mkdir(exist_ok=True)
 
-    # Data loading 
+    # Data loading
     print("\nLoading data...")
     df = load_and_merge()
     if df.empty:
@@ -186,7 +188,7 @@ def main():
         print("-> Data loaded successfully!")
         print(SEPERATOR)
 
-    # Data filtering 
+    # Data filtering
     print("Filtering data...")
     df_base = filter_base(df)
     if df_base.empty:
@@ -194,7 +196,7 @@ def main():
     else:
         print("-> Data filtered successfully!")
         print(SEPERATOR)
-        
+
     # Add Column "Gold"
     df_labeled = add_is_gold_flag(df_base)
 

@@ -1,7 +1,6 @@
-
-import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree
 
 # Load the dataset
 df = pd.read_csv("data/restaurant.csv", sep=";")
@@ -22,19 +21,13 @@ print("\nTarget Labels:")
 print(y.head())
 
 # Create the decision tree classifier using the Gini index
-tree_clf = DecisionTreeClassifier(
-    criterion="gini",
-    random_state=0
-)
+tree_clf = DecisionTreeClassifier(criterion="gini", random_state=0)
 
 # Train the model
 tree_clf.fit(X_encoded, y)
 
 # Display the decision tree as text
-tree_rules = export_text(
-    tree_clf,
-    feature_names=list(X_encoded.columns)
-)
+tree_rules = export_text(tree_clf, feature_names=list(X_encoded.columns))
 
 print("\nDecision Tree Rules:")
 print(tree_rules)
@@ -47,7 +40,7 @@ plot_tree(
     feature_names=list(X_encoded.columns),
     class_names=["No", "Yes"],
     filled=True,
-    rounded=True
+    rounded=True,
 )
 
 plt.tight_layout()

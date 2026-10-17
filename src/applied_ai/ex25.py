@@ -1,4 +1,3 @@
-
 import pandas as pd
 
 # Load the dataset
@@ -7,8 +6,16 @@ df = pd.read_csv("data/restaurant.csv", sep=";")
 target = "Will Wait (Y)"
 
 features = [
-    "Alternate", "Bar", "Fri/Sat", "Hungry", "Patrons",
-    "Price", "Rain", "Reservation", "Type", "WaitEstimate"
+    "Alternate",
+    "Bar",
+    "Fri/Sat",
+    "Hungry",
+    "Patrons",
+    "Price",
+    "Rain",
+    "Reservation",
+    "Type",
+    "WaitEstimate",
 ]
 
 
@@ -23,8 +30,7 @@ def gini_split(df, feature):
     total = len(df)
 
     return sum(
-        (len(group) / total) * gini(group[target])
-        for _, group in df.groupby(feature)
+        (len(group) / total) * gini(group[target]) for _, group in df.groupby(feature)
     )
 
 
@@ -48,10 +54,7 @@ def build_tree(df, features, depth=0):
         return result
 
     # Calculate Gini values for all remaining features
-    results = {
-        feature: gini_split(df, feature)
-        for feature in features
-    }
+    results = {feature: gini_split(df, feature) for feature in features}
 
     print(f"\n{indent}Gini values:")
 
@@ -64,10 +67,7 @@ def build_tree(df, features, depth=0):
     print(f"{indent}Best feature: {best_feature}")
 
     # Remove the selected feature from the remaining features
-    remaining_features = [
-        feature for feature in features
-        if feature != best_feature
-    ]
+    remaining_features = [feature for feature in features if feature != best_feature]
 
     tree = {best_feature: {}}
 
@@ -78,11 +78,7 @@ def build_tree(df, features, depth=0):
         print(f"{indent}Gini: {gini(group[target]):.4f}")
         print(group[target].value_counts())
 
-        subtree = build_tree(
-            group,
-            remaining_features,
-            depth + 1
-        )
+        subtree = build_tree(group, remaining_features, depth + 1)
 
         tree[best_feature][value] = subtree
 

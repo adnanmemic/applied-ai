@@ -10,31 +10,19 @@ from torchvision.transforms import ToTensor
 
 # Load the dataset
 train_data = datasets.FashionMNIST(
-    root="data",
-    train=True,
-    download=True,
-    transform=ToTensor()
+    root="data", train=True, download=True, transform=ToTensor()
 )
 
 test_data = datasets.FashionMNIST(
-    root="data",
-    train=False,
-    download=True,
-    transform=ToTensor()
+    root="data", train=False, download=True, transform=ToTensor()
 )
 
 batch_size = 64
 
-train_dataloader = DataLoader(
-    train_data,
-    batch_size=batch_size,
-    shuffle=True
-)
+train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 
-test_dataloader = DataLoader(
-    test_data,
-    batch_size=batch_size
-)
+test_dataloader = DataLoader(test_data, batch_size=batch_size)
+
 
 # Define the neural network
 class NeuralNetwork(nn.Module):
@@ -48,7 +36,7 @@ class NeuralNetwork(nn.Module):
             nn.ReLU(),
             nn.Linear(512, 512),
             nn.ReLU(),
-            nn.Linear(512, 10)
+            nn.Linear(512, 10),
         )
 
     def forward(self, x):
@@ -65,10 +53,8 @@ model = NeuralNetwork().to(device)
 
 # Loss function and optimizer
 loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(
-    model.parameters(),
-    lr=1e-3
-)
+optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
+
 
 # Training function
 def train(dataloader, model, loss_fn, optimizer):
@@ -90,10 +76,7 @@ def train(dataloader, model, loss_fn, optimizer):
 
         if batch % 100 == 0:
             current = batch * len(X)
-            print(
-                f"Loss: {loss.item():.4f} "
-                f"[{current}/{size}]"
-            )
+            print(f"Loss: {loss.item():.4f} [{current}/{size}]")
 
 
 # Evaluation function
@@ -114,17 +97,12 @@ def test(dataloader, model, loss_fn):
             pred = model(X)
 
             test_loss += loss_fn(pred, y).item()
-            correct += (
-                pred.argmax(1) == y
-            ).type(torch.float).sum().item()
+            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
 
     test_loss /= num_batches
     accuracy = correct / size
 
-    print(
-        f"Test Accuracy: {accuracy * 100:.2f}% | "
-        f"Average Loss: {test_loss:.4f}"
-    )
+    print(f"Test Accuracy: {accuracy * 100:.2f}% | Average Loss: {test_loss:.4f}")
 
 
 # Train and evaluate
@@ -151,7 +129,7 @@ classes = [
     "Shirt",
     "Sneaker",
     "Bag",
-    "Ankle boot"
+    "Ankle boot",
 ]
 
 model.eval()
