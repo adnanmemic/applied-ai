@@ -4,11 +4,11 @@ from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 
-# Exercise 29: Image Classification with Fashion-MNIST
+# Image Classification with Fashion-MNIST
 # Based on the official PyTorch Quickstart Tutorial:
 # https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
 
-# 1. Load the dataset
+# Load the dataset
 train_data = datasets.FashionMNIST(
     root="data",
     train=True,
@@ -36,7 +36,7 @@ test_dataloader = DataLoader(
     batch_size=batch_size
 )
 
-# 2. Define the neural network
+# Define the neural network
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
@@ -57,20 +57,20 @@ class NeuralNetwork(nn.Module):
         return logits
 
 
-# 3. Select device
+# Select device
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
 model = NeuralNetwork().to(device)
 
-# 4. Loss function and optimizer
+# Loss function and optimizer
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(
     model.parameters(),
     lr=1e-3
 )
 
-# 5. Training function
+# Training function
 def train(dataloader, model, loss_fn, optimizer):
     model.train()
     size = len(dataloader.dataset)
@@ -96,7 +96,7 @@ def train(dataloader, model, loss_fn, optimizer):
             )
 
 
-# 6. Evaluation function
+# Evaluation function
 def test(dataloader, model, loss_fn):
     model.eval()
 
@@ -127,7 +127,7 @@ def test(dataloader, model, loss_fn):
     )
 
 
-# 7. Train and evaluate
+# Train and evaluate
 epochs = 5
 
 for epoch in range(epochs):
@@ -140,7 +140,7 @@ for epoch in range(epochs):
 print("\nTraining finished!")
 
 
-# 8. Make a prediction
+# Make a prediction
 classes = [
     "T-shirt/top",
     "Trouser",
